@@ -15,7 +15,7 @@ public class CommonController {
     @RequestMapping(value = "/titular")
     public String showMainTituar() throws FileNotFoundException {
         String str = "";
-        Scanner scanner = new Scanner(new FileReader("src/main/resources/static/titular.html"));
+        Scanner scanner = new Scanner(new FileReader("src/main/resources/templates/titular.html"));
         while (scanner.hasNextLine()){
             str += scanner.nextLine();
         }
@@ -25,7 +25,7 @@ public class CommonController {
     @RequestMapping(value = "/titular/{link}")
     public String showSecondaryTituar(@PathVariable(value = "link") String link) throws FileNotFoundException {
         String str = "";
-        Scanner scanner = new Scanner(new FileReader("src/main/resources/static/titular.html"));
+        Scanner scanner = new Scanner(new FileReader("src/main/resources/templates/titular.html"));
         while (scanner.hasNextLine()){
             str += scanner.nextLine();
         }
