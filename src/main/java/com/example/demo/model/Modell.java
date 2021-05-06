@@ -1,7 +1,10 @@
 package com.example.demo.model;
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -13,17 +16,19 @@ import java.util.Objects;
 @EqualsAndHashCode(of = {"id"})
 @AllArgsConstructor
 @NoArgsConstructor
-public class Modell{
+@Document
+public class Modell extends Audit{
+    @Id
     private String id;
     private String name;
     private Marka marka;
     private CarClass carClass;
-    private Integer year;
+    private LocalDate date;
 
-    public Modell(String name, Marka marka, CarClass carClass, Integer year) {
+    public Modell(String name, Marka marka,  LocalDate year, CarClass carClass) {
         this.name = name;
         this.marka = marka;
+        this.date = year;
         this.carClass = carClass;
-        this.year = year;
     }
 }

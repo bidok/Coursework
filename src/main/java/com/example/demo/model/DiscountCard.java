@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Objects;
 
@@ -13,11 +15,13 @@ import java.util.Objects;
 @EqualsAndHashCode(of = {"id"})
 @AllArgsConstructor
 @NoArgsConstructor
+@Document
 public class DiscountCard extends Audit{
+    @Id
     private String id;
     private String cardNumber;
-    private int discount;
-    private int distance;
+    private Integer discount;
+    private Integer distance;
 
     public DiscountCard( String cardNumber, int discount, int distance) {
         this.cardNumber = cardNumber;

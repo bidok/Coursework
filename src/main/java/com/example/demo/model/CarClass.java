@@ -10,5 +10,6 @@ public enum CarClass {
     Econom,
     Standart,
     Prestige,
-    Lux
+    Lux,
+    Undefined
 }

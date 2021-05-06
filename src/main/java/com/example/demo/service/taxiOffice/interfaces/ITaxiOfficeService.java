@@ -11,10 +11,5 @@ import java.util.List;
  **/
 
 public interface ITaxiOfficeService {
-    TaxiOffice getById(String id);
-    TaxiOffice create(TaxiOffice taxiOffice);
-    TaxiOffice update(TaxiOffice taxiOffice);
-    TaxiOffice delete(String id);
-    List<TaxiOffice> getAll();
-    TaxiOffice getByName (String name);
+
 }

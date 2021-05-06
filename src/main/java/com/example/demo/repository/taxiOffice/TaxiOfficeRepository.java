@@ -12,4 +12,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TaxiOfficeRepository extends MongoRepository<TaxiOffice, String> {
+    TaxiOffice findFirstByName(String name);
 }

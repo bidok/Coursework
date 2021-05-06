@@ -12,9 +12,9 @@ import java.util.List;
  **/
 
 public interface IDriverService {
-    Driver getById(String id);
-    Driver create(Driver driver);
-    Driver update(Driver driver);
-    Driver delete(String id);
-    List<Driver> getAll();
+//    Driver getById(String id);
+//    Driver create(Driver driver);
+//    Driver update(Driver driver);
+//    Driver delete(String id);
+//    List<Driver> getAll();
 }

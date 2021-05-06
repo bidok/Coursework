@@ -15,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -51,7 +53,7 @@ public class DriverUIController {
 
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable String id){
-        service.delete(id);
+        service.deleteById(id);
         return "redirect:/ui/driver/get/all";
     }
 
@@ -70,6 +72,7 @@ public class DriverUIController {
         Map<String, String> taxiOffices = taxiOfficeService.getAll()
                 .stream().collect(Collectors.toMap(TaxiOffice::getId, TaxiOffice::getName));
         model.addAttribute("taxiOffices", taxiOffices);
+        model.addAttribute("marks", new ArrayList<String>(Arrays.asList("1","2","3", "4", "5")));
         return "driver/update";
     }
 
@@ -79,10 +82,10 @@ public class DriverUIController {
         driver.setId(id);
         driver.setName(driverForm.getName());
         driver.setPhone(driverForm.getPhone());
-        driver.setMark(Integer.parseInt(driverForm.getMark()));
+        driver.setMark(Long.parseLong(driverForm.getMark()));
         driver.setLicenseNumber(driverForm.getLicenseNumber());
         driver.setTaxiOffice(taxiOfficeService.getById(driverForm.getTaxiOffice()));
-        service.update(driver);
+        service.save(driver);
         return "redirect:/ui/driver/get/all";
     }
 
@@ -92,6 +95,7 @@ public class DriverUIController {
         model.addAttribute("taxiOffices",
                 taxiOfficeService.getAll().stream()
                         .collect(Collectors.toMap(TaxiOffice::getId, TaxiOffice::getName)));
+       model.addAttribute("marks", new ArrayList<String>(Arrays.asList("1","2","3", "4", "5")));
         return "driver/create";
     }
 
@@ -100,10 +104,10 @@ public class DriverUIController {
         Driver driver = new Driver();
         driver.setName(driverForm.getName());
         driver.setPhone(driverForm.getPhone());
-        driver.setMark(Integer.parseInt(driverForm.getMark()));
+        driver.setMark(Long.parseLong(driverForm.getMark()));
         driver.setLicenseNumber(driverForm.getLicenseNumber());
         driver.setTaxiOffice(taxiOfficeService.getById(driverForm.getTaxiOffice()));
-        service.create(driver);
+        service.save(driver);
         return "redirect:/ui/driver/get/all";
     }
 

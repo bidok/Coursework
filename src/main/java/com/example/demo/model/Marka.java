@@ -10,5 +10,6 @@ public enum Marka {
     Nissan,
     Mazda,
     Opel,
-    Renault
+    Renault,
+    Undefined
 }

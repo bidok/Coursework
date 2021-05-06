@@ -17,7 +17,7 @@ import java.util.List;
  * @className : DriverRestController
  **/
 
-@Tag(name = "Driver Controller", description = "CRUD for driver")
+//@Tag(name = "Driver Controller", description = "CRUD for driver")
 @RestController
 @RequestMapping("api/driver")
 public class DriverRestController {
@@ -25,34 +25,34 @@ public class DriverRestController {
     @Autowired
     DriverServiceImpl driverService;
 
-    @Operation(summary = "Get All", description = "Get All drivers")
+   // @Operation(summary = "Get All", description = "Get All drivers")
     @RequestMapping("/get/all")
     public List<Driver> getServices(){
         return driverService.getAll();
     }
 
-    @Operation(summary = "Get By ID", description = "Get Driver by ID")
+   // @Operation(summary = "Get By ID", description = "Get Driver by ID")
     @RequestMapping("/get/{id}")
     public Driver getById(@PathVariable(value = "id" ) String id ){
         return driverService.getById(id);
     }
 
-    @Operation(summary = "Delete By ID", description = "Delete Driver by ID")
+ //   @Operation(summary = "Delete By ID", description = "Delete Driver by ID")
     @GetMapping("/delete/{id}")
     public Driver delete(@PathVariable(value = "id") String id){
-        return driverService.delete(id);
+        return driverService.deleteById(id);
     }
 
-    @Operation(summary = "Create", description = "Create Driver")
+   // @Operation(summary = "Create", description = "Create Driver")
     @PostMapping("/create/")
     public Driver create(@RequestBody Driver driver){
-        return driverService.create(driver);
+        return driverService.save(driver);
     }
 
-    @Operation(summary = "Update", description = "Update Taxi Office")
+   // @Operation(summary = "Update", description = "Update Taxi Office")
     @PostMapping("/update")
     public Driver update(@RequestBody Driver driver){
-        return driverService.update(driver);
+        return driverService.save(driver);
     }
 
 

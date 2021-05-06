@@ -1,40 +1,37 @@
 package com.example.demo.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Objects;
+import java.time.*;
 
 /**
  * @author : bidok
- * @created : 10.02.2021, среда
+ * @created : 30.04.2021, пятница
  * @className : TimeTable
  **/
 @Data
 @EqualsAndHashCode(of = {"id"})
 @NoArgsConstructor
-public class TimeTable extends Audit{
+@AllArgsConstructor
+@Document
+public abstract class TimeTable<O> extends Audit{
+    @Id
     private String id;
-    private LocalDate date;
     private LocalTime startWork;
     private LocalTime endWork;
-    private Driver driver;
-    private Operator operator;
+    @DBRef
+    private O worker;
 
-    public TimeTable(String id, LocalDate date, LocalTime startWork, LocalTime endWork, Driver driver) {
+    public TimeTable( LocalTime startWork, LocalTime endWork, O worker) {
         this.id = id;
-        this.date = date;
         this.startWork = startWork;
         this.endWork = endWork;
-        this.driver = driver;
-    }
-
-    public TimeTable(String id, LocalDate date, LocalTime startWork, LocalTime endWork, Operator operator) {
-        this.id = id;
-        this.date = date;
-        this.startWork = startWork;
-        this.endWork = endWork;
-        this.operator = operator;
+        this.worker = worker;
     }
 }

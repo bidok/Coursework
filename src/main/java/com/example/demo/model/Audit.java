@@ -5,7 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 /**
  * @author : bidok
@@ -14,11 +17,15 @@ import java.time.LocalDateTime;
  **/
 @Data
 public class Audit {
-    private final LocalDateTime createTime;
-    private LocalDateTime updateTime;
+    private LocalDate createTime;
+    private LocalDate updateTime;
 
     public Audit() {
-        this.createTime = LocalDateTime.now();
-        this.updateTime = LocalDateTime.now();
+        this.createTime = LocalDateTime.now(ZoneId.of("Europe/Kiev")).toLocalDate();
+        this.updateTime = LocalDateTime.now(ZoneId.of("Europe/Kiev")).toLocalDate();
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = LocalDateTime.now(ZoneId.of("Europe/Kiev")).toLocalDate();
     }
 }

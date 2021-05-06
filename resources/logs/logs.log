@@ -1,0 +1,186 @@
+"2021-05-04 16:21:10 [main] INFO  c.example.demo.CourseworkApplication - Starting CourseworkApplication using Java 1.8.0_281 on DESKTOP-KF1OR5V with PID 8236 (C:\Users\bidok\Dropbox\Google Диск\PZKS\2 course\Coursework\target\classes started by bidok in C:\Users\bidok\Dropbox\Google Диск\PZKS\2 course\Coursework)
+""2021-05-04 16:21:10 [main] INFO  c.example.demo.CourseworkApplication - No active profile set, falling back to default profiles: default
+""2021-05-04 16:21:11 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data MongoDB repositories in DEFAULT mode.
+""2021-05-04 16:21:11 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 98 ms. Found 17 MongoDB repository interfaces.
+""2021-05-04 16:21:11 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+""2021-05-04 16:21:11 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+""2021-05-04 16:21:11 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.41]
+""2021-05-04 16:21:11 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+""2021-05-04 16:21:11 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1170 ms
+""2021-05-04 16:21:11 [main] INFO  org.mongodb.driver.cluster - Cluster created with settings {hosts=[127.0.0.1:27017], srvHost=coursework.kuhsy.mongodb.net, mode=MULTIPLE, requiredClusterType=REPLICA_SET, serverSelectionTimeout='30000 ms', requiredReplicaSetName='atlas-ur3ze2-shard-0'}
+""2021-05-04 16:21:12 [cluster-ClusterId{value='60914a470143820fff68b945', description='null'}-srv-coursework.kuhsy.mongodb.net] INFO  org.mongodb.driver.cluster - Adding discovered server coursework-shard-00-01.kuhsy.mongodb.net:27017 to client view of cluster
+""2021-05-04 16:21:12 [cluster-ClusterId{value='60914a470143820fff68b945', description='null'}-srv-coursework.kuhsy.mongodb.net] INFO  org.mongodb.driver.cluster - Adding discovered server coursework-shard-00-02.kuhsy.mongodb.net:27017 to client view of cluster
+""2021-05-04 16:21:12 [cluster-ClusterId{value='60914a470143820fff68b945', description='null'}-srv-coursework.kuhsy.mongodb.net] INFO  org.mongodb.driver.cluster - Adding discovered server coursework-shard-00-00.kuhsy.mongodb.net:27017 to client view of cluster
+""2021-05-04 16:21:12 [main] INFO  s.d.s.w.PropertySourcedRequestMappingHandlerMapping - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+""2021-05-04 16:21:12 [main] INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+""2021-05-04 16:21:12 [main] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+""2021-05-04 16:21:12 [cluster-rtt-ClusterId{value='60914a470143820fff68b945', description='null'}-coursework-shard-00-01.kuhsy.mongodb.net:27017] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:6, serverValue:128117}] to coursework-shard-00-01.kuhsy.mongodb.net:27017
+""2021-05-04 16:21:12 [cluster-ClusterId{value='60914a470143820fff68b945', description='null'}-coursework-shard-00-01.kuhsy.mongodb.net:27017] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:4, serverValue:128120}] to coursework-shard-00-01.kuhsy.mongodb.net:27017
+""2021-05-04 16:21:12 [cluster-ClusterId{value='60914a470143820fff68b945', description='null'}-coursework-shard-00-01.kuhsy.mongodb.net:27017] INFO  org.mongodb.driver.cluster - Monitor thread successfully connected to server with description ServerDescription{address=coursework-shard-00-01.kuhsy.mongodb.net:27017, type=REPLICA_SET_SECONDARY, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=9, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=234863400, setName='atlas-ur3ze2-shard-0', canonicalAddress=coursework-shard-00-01.kuhsy.mongodb.net:27017, hosts=[coursework-shard-00-00.kuhsy.mongodb.net:27017, coursework-shard-00-01.kuhsy.mongodb.net:27017, coursework-shard-00-02.kuhsy.mongodb.net:27017], passives=[], arbiters=[], primary='coursework-shard-00-02.kuhsy.mongodb.net:27017', tagSet=TagSet{[Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='EU_CENTRAL_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=null, setVersion=1, topologyVersion=TopologyVersion{processId=608bd01b4f74464e9aa8e5ff, counter=4}, lastWriteDate=Tue May 04 16:21:12 EEST 2021, lastUpdateTimeNanos=110761466808800}
+""2021-05-04 16:21:12 [cluster-rtt-ClusterId{value='60914a470143820fff68b945', description='null'}-coursework-shard-00-02.kuhsy.mongodb.net:27017] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:5, serverValue:134958}] to coursework-shard-00-02.kuhsy.mongodb.net:27017
+""2021-05-04 16:21:12 [cluster-ClusterId{value='60914a470143820fff68b945', description='null'}-coursework-shard-00-02.kuhsy.mongodb.net:27017] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:2, serverValue:134958}] to coursework-shard-00-02.kuhsy.mongodb.net:27017
+""2021-05-04 16:21:12 [cluster-rtt-ClusterId{value='60914a470143820fff68b945', description='null'}-coursework-shard-00-00.kuhsy.mongodb.net:27017] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:1, serverValue:128481}] to coursework-shard-00-00.kuhsy.mongodb.net:27017
+""2021-05-04 16:21:12 [cluster-ClusterId{value='60914a470143820fff68b945', description='null'}-coursework-shard-00-02.kuhsy.mongodb.net:27017] INFO  org.mongodb.driver.cluster - Monitor thread successfully connected to server with description ServerDescription{address=coursework-shard-00-02.kuhsy.mongodb.net:27017, type=REPLICA_SET_PRIMARY, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=9, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=138435200, setName='atlas-ur3ze2-shard-0', canonicalAddress=coursework-shard-00-02.kuhsy.mongodb.net:27017, hosts=[coursework-shard-00-00.kuhsy.mongodb.net:27017, coursework-shard-00-01.kuhsy.mongodb.net:27017, coursework-shard-00-02.kuhsy.mongodb.net:27017], passives=[], arbiters=[], primary='coursework-shard-00-02.kuhsy.mongodb.net:27017', tagSet=TagSet{[Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='EU_CENTRAL_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=7fffffff0000000000000004, setVersion=1, topologyVersion=TopologyVersion{processId=608bcf273fee100918a10350, counter=6}, lastWriteDate=Tue May 04 16:21:12 EEST 2021, lastUpdateTimeNanos=110761596625100}
+""2021-05-04 16:21:12 [cluster-ClusterId{value='60914a470143820fff68b945', description='null'}-coursework-shard-00-02.kuhsy.mongodb.net:27017] INFO  org.mongodb.driver.cluster - Setting max election id to 7fffffff0000000000000004 from replica set primary coursework-shard-00-02.kuhsy.mongodb.net:27017
+""2021-05-04 16:21:12 [cluster-ClusterId{value='60914a470143820fff68b945', description='null'}-coursework-shard-00-02.kuhsy.mongodb.net:27017] INFO  org.mongodb.driver.cluster - Setting max set version to 1 from replica set primary coursework-shard-00-02.kuhsy.mongodb.net:27017
+""2021-05-04 16:21:12 [cluster-ClusterId{value='60914a470143820fff68b945', description='null'}-coursework-shard-00-02.kuhsy.mongodb.net:27017] INFO  org.mongodb.driver.cluster - Discovered replica set primary coursework-shard-00-02.kuhsy.mongodb.net:27017
+""2021-05-04 16:21:12 [cluster-ClusterId{value='60914a470143820fff68b945', description='null'}-coursework-shard-00-00.kuhsy.mongodb.net:27017] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:3, serverValue:128484}] to coursework-shard-00-00.kuhsy.mongodb.net:27017
+""2021-05-04 16:21:12 [cluster-ClusterId{value='60914a470143820fff68b945', description='null'}-coursework-shard-00-00.kuhsy.mongodb.net:27017] INFO  org.mongodb.driver.cluster - Monitor thread successfully connected to server with description ServerDescription{address=coursework-shard-00-00.kuhsy.mongodb.net:27017, type=REPLICA_SET_SECONDARY, state=CONNECTED, ok=true, minWireVersion=0, maxWireVersion=9, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=162501800, setName='atlas-ur3ze2-shard-0', canonicalAddress=coursework-shard-00-00.kuhsy.mongodb.net:27017, hosts=[coursework-shard-00-00.kuhsy.mongodb.net:27017, coursework-shard-00-01.kuhsy.mongodb.net:27017, coursework-shard-00-02.kuhsy.mongodb.net:27017], passives=[], arbiters=[], primary='coursework-shard-00-02.kuhsy.mongodb.net:27017', tagSet=TagSet{[Tag{name='nodeType', value='ELECTABLE'}, Tag{name='provider', value='AWS'}, Tag{name='region', value='EU_CENTRAL_1'}, Tag{name='workloadType', value='OPERATIONAL'}]}, electionId=null, setVersion=1, topologyVersion=TopologyVersion{processId=608bce4184f8b9415b423ed0, counter=4}, lastWriteDate=Tue May 04 16:21:12 EEST 2021, lastUpdateTimeNanos=110761606613300}
+""2021-05-04 16:21:13 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper - Context refreshed
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.p.DocumentationPluginsBootstrapper - Found 1 custom documentation plugin(s)
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.s.ApiListingReferenceScanner - Scanning for api listing references
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_1
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getAllUsingGET_1
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getByIdUsingGET_1
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingPOST_1
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_2
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingHEAD_1
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPOST_1
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPUT_1
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPATCH_1
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingDELETE_1
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingOPTIONS_1
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingTRACE_1
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getAllUsingGET_2
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getByIdUsingGET_2
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingPOST_2
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_3
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingHEAD_2
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPOST_2
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPUT_2
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPATCH_2
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingDELETE_2
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingOPTIONS_2
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingTRACE_2
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getAllUsingGET_3
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getByIdUsingGET_3
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingPOST_3
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_4
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingHEAD_3
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPOST_3
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPUT_3
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPATCH_3
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingDELETE_3
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingOPTIONS_3
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingTRACE_3
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getAllUsingGET_4
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getByIdUsingGET_4
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingPOST_4
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_5
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingHEAD_4
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPOST_4
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPUT_4
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPATCH_4
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingDELETE_4
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingOPTIONS_4
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingTRACE_4
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getAllUsingGET_5
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getByIdUsingGET_5
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingPOST_5
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_6
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getByIdUsingGET_6
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_7
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingHEAD_5
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPOST_5
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPUT_5
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPATCH_5
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingDELETE_5
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingOPTIONS_5
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingTRACE_5
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getAllUsingGET_6
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getByIdUsingGET_7
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingPOST_6
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_8
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingHEAD_6
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPOST_6
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPUT_6
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPATCH_6
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingDELETE_6
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingOPTIONS_6
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingTRACE_6
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getAllUsingGET_7
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getByIdUsingGET_8
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingPOST_7
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_9
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingHEAD_7
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPOST_7
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPUT_7
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPATCH_7
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingDELETE_7
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingOPTIONS_7
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingTRACE_7
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getAllUsingGET_8
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getByIdUsingGET_9
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingPOST_8
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_10
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingHEAD_8
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPOST_8
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPUT_8
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPATCH_8
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingDELETE_8
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingOPTIONS_8
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingTRACE_8
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getAllUsingGET_9
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getByIdUsingGET_10
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingPOST_9
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_11
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingHEAD_9
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPOST_9
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPUT_9
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPATCH_9
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingDELETE_9
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingOPTIONS_9
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingTRACE_9
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getAllUsingGET_10
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getByIdUsingGET_11
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingPOST_10
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_12
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingHEAD_10
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPOST_10
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPUT_10
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPATCH_10
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingDELETE_10
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingOPTIONS_10
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingTRACE_10
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getAllUsingGET_11
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getByIdUsingGET_12
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingPOST_11
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_13
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getAllUsingGET_12
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getByIdUsingGET_13
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingPOST_12
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: createUsingPOST_1
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_14
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getByIdUsingGET_14
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getServicesUsingGET_1
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: updateUsingPOST_1
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_15
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingHEAD_11
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPOST_11
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPUT_11
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPATCH_11
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingDELETE_11
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingOPTIONS_11
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingTRACE_11
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getAllUsingGET_13
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getByIdUsingGET_15
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingPOST_13
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingGET_16
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingHEAD_12
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPOST_12
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPUT_12
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingPATCH_12
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingDELETE_12
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingOPTIONS_12
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: deleteUsingTRACE_12
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getAllUsingGET_14
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: getByIdUsingGET_16
+""2021-05-04 16:21:13 [main] INFO  s.d.s.w.r.o.CachingOperationNameGenerator - Generating unique operation named: saveUsingPOST_14
+""2021-05-04 16:21:13 [main] INFO  c.example.demo.CourseworkApplication - Started CourseworkApplication in 3.328 seconds (JVM running for 3.807)
+""2021-05-04 16:21:15 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+""2021-05-04 16:21:15 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+""2021-05-04 16:21:15 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+""2021-05-04 16:21:15 [http-nio-8080-exec-1] INFO  c.e.d.s.t.i.TaxiOfficeServiceImpl - method get all was used for taxiOffice class
+""2021-05-04 16:21:16 [http-nio-8080-exec-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:7, serverValue:134958}] to coursework-shard-00-02.kuhsy.mongodb.net:27017
+"

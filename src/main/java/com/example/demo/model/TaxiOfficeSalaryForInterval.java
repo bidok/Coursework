@@ -1,6 +1,9 @@
 package com.example.demo.model;
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,11 +20,13 @@ import java.util.Map;
 @EqualsAndHashCode(of = {"id"})
 @AllArgsConstructor
 @NoArgsConstructor
+@Document
 public class TaxiOfficeSalaryForInterval extends Audit{
+    @Id
     private String id;
+    @DBRef
     private TaxiOffice taxiOffice;
-    private List<TaxiOfficeSalaryForDay> salaryForDays;
-    private int salary;
+    private Integer salary;
     private LocalDate from;
     private LocalDate to;
 
