@@ -14,4 +14,5 @@ import java.util.List;
 @Repository
 public interface DriverSalaryForIntervalRepository extends MongoRepository<DriverSalaryForInterval, String> {
     List<DriverSalaryForInterval> findAllByDriverId(String id);
+
 }

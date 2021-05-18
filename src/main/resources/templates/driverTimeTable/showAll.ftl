@@ -15,7 +15,7 @@
             color: black;
         }
         body{
-            background-image: url("https://i1.wp.com/xn----7sbajzfbakh2epf6d3d.xn--p1ai/wp-content/uploads/2014/08/fon-vizitki-taksi-26.jpg?resize=950%2C528&ssl=1");
+            background-image: url("https://image.shutterstock.com/image-vector/urban-background-taxi-car-skyscrapers-260nw-100603252.jpg");
             background-size: 100%;
             background-repeat: no-repeat;
 
@@ -92,7 +92,15 @@
 
                     </ul>
                 </li>
-
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Time Table
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="/ui/timetable/driver/get/all">Driver</a></li>
+                        <li><a class="dropdown-item" href="/ui/timetable/operator/get/all">Operator</a></li>
+                    </ul>
+                </li>
 
             </ul>
         </div>

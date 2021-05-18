@@ -5,6 +5,7 @@ import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.exceptions.ObjectNotFoundException;
 import com.example.demo.model.Customer;
 import com.example.demo.model.DiscountCard;
+import com.example.demo.model.Order;
 import com.example.demo.repository.customer.CustomerRepository;
 import com.example.demo.repository.order.OrderRepository;
 import com.example.demo.service.IGenericService;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,6 +61,14 @@ public class CustomerServiceImpl implements ICustomerService, IGenericService<Cu
                 .collect(Collectors.toList()));
         repository.deleteById(id);
         return customer;
+    }
+
+    public List<Customer> getCustomersWhoCanceledOrder(){
+       return orderRepository.findAllByCompletedIsFalse().stream().map(Order::getCustomer).collect(Collectors.toList());
+    }
+
+    public List<Customer> get10CustomersWithBiggestDiscount(){
+        return this.getAll().stream().sorted((Comparator.comparing(o -> o.getDiscountCard().getDiscount()))).limit(10).collect(Collectors.toList());
     }
 
 }

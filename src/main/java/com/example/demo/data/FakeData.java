@@ -37,7 +37,7 @@ public class FakeData {
             new Driver("608ac682aa36226ea359afb5",
                     "oleg",
                     "0996238756",
-                    (long)5,
+                    5,
                     "123459877678",
                     taxiOffices.get(0)
                     )

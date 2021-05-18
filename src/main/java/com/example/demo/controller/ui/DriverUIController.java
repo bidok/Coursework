@@ -82,7 +82,7 @@ public class DriverUIController {
         driver.setId(id);
         driver.setName(driverForm.getName());
         driver.setPhone(driverForm.getPhone());
-        driver.setMark(Long.parseLong(driverForm.getMark()));
+        driver.setMark(Integer.parseInt(driverForm.getMark()));
         driver.setLicenseNumber(driverForm.getLicenseNumber());
         driver.setTaxiOffice(taxiOfficeService.getById(driverForm.getTaxiOffice()));
         service.save(driver);
@@ -104,7 +104,7 @@ public class DriverUIController {
         Driver driver = new Driver();
         driver.setName(driverForm.getName());
         driver.setPhone(driverForm.getPhone());
-        driver.setMark(Long.parseLong(driverForm.getMark()));
+        driver.setMark(Integer.parseInt(driverForm.getMark()));
         driver.setLicenseNumber(driverForm.getLicenseNumber());
         driver.setTaxiOffice(taxiOfficeService.getById(driverForm.getTaxiOffice()));
         service.save(driver);

@@ -3,23 +3,25 @@ package com.example.demo.service.check.impls;
 import com.example.demo.data.FakeData;
 import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.exceptions.ObjectNotFoundException;
-import com.example.demo.model.Check;
-import com.example.demo.model.DispatchServiceSalaryForDay;
-import com.example.demo.model.DriverSalaryForDay;
-import com.example.demo.model.TaxiOfficeSalaryForDay;
+import com.example.demo.model.*;
 import com.example.demo.repository.check.CheckRepository;
 import com.example.demo.repository.dispatchServiceSalaryForDay.DispatchServiceSalaryForDayRepository;
 import com.example.demo.repository.driverSalaryForDay.DriverSalaryForDayRepository;
+import com.example.demo.repository.order.OrderRepository;
 import com.example.demo.repository.taxiOfficeSalaryForDay.TaxiOfficeSalaryForDayRepository;
 import com.example.demo.service.IGenericService;
 import com.example.demo.service.check.interfaces.ICheckService;
+import com.example.demo.service.order.impls.OrderServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author : bidok
@@ -33,6 +35,7 @@ public class CheckServiceImpl implements ICheckService, IGenericService<Check> {
     private final DriverSalaryForDayRepository driverSalaryForDayRepository;
     private final TaxiOfficeSalaryForDayRepository taxiOfficeSalaryForDayRepository;
     private final DispatchServiceSalaryForDayRepository dispatchServiceSalaryForDayRepository;
+    private final OrderServiceImpl orderService;
     private final FakeData fakeData;
 
     @Override
@@ -72,19 +75,41 @@ public class CheckServiceImpl implements ICheckService, IGenericService<Check> {
         //for driver
         DriverSalaryForDay driverSalaryForDay  =  driverSalaryForDayRepository.findAll().stream()
                 .filter(item -> item.getDriver().equals(type.getOrder().getCar().getDriver()) &&
-                        item.getCreateTime().equals(type.getCreateTime())).findFirst().orElse(null);
-        driverSalaryForDay.setSalary((int)((driverSalaryForDay.getSalary() + type.getPrice() * 0.25) - ((driverSalaryForDay.getSalary() + type.getPrice() * 0.25) * discount)));
+                        item.getCreateTime().equals(type.getCreateTime())).findFirst()
+                .orElseThrow(() ->
+                        new ObjectNotFoundException("driver with id[" +
+                                type.getOrder().getCar().getDriver().getId() +
+                                "] not found or driver salary on date [" +
+                                type.getCreateTime() +
+                                "] don`t exist"));
+        driverSalaryForDay.setSalary((int)((driverSalaryForDay.getSalary() + type.getPrice() * 0.25) -
+                ((driverSalaryForDay.getSalary() + type.getPrice() * 0.25) * discount)));
         driverSalaryForDayRepository.save(driverSalaryForDay);
         //for taxiOffice
-        TaxiOfficeSalaryForDay taxiOfficeSalaryForDay =  taxiOfficeSalaryForDayRepository.findAllByTaxiOfficeId(type.getOrder().getCar().getDriver().getTaxiOffice().getId())
-                .stream().filter(item -> item.getCreateTime().equals(type.getCreateTime())).findFirst().orElse(null);
-        taxiOfficeSalaryForDay.setSalary((int)((taxiOfficeSalaryForDay.getSalary() + type.getPrice() * 0.60) - (taxiOfficeSalaryForDay.getSalary() + type.getPrice() * 0.60) * discount));
+        TaxiOfficeSalaryForDay taxiOfficeSalaryForDay =  taxiOfficeSalaryForDayRepository
+                .findAllByTaxiOfficeId(type.getOrder().getCar().getDriver().getTaxiOffice().getId())
+                .stream().filter(item -> item.getCreateTime().equals(type.getCreateTime())).findFirst().orElseThrow(() ->
+                        new ObjectNotFoundException("taxi office with id[" +
+                                type.getOrder().getCar().getDriver().getId() +
+                                "] not found or taxi office salary on date [" +
+                                type.getCreateTime() +
+                                "] don`t exist"));
+        taxiOfficeSalaryForDay.setSalary((int)((taxiOfficeSalaryForDay.getSalary() +
+                type.getPrice() * 0.60) - (taxiOfficeSalaryForDay.getSalary() + type.getPrice() * 0.60) * discount));
         taxiOfficeSalaryForDayRepository.save(taxiOfficeSalaryForDay);
         //for dispatchservice
         DispatchServiceSalaryForDay dispatchServiceSalaryForDay =  dispatchServiceSalaryForDayRepository.findAll().stream()
-                .filter(item -> item.getCreateTime().equals(type.getCreateTime())).findFirst().orElse(null);
-        dispatchServiceSalaryForDay.setSalary((int)((dispatchServiceSalaryForDay.getSalary() + type.getPrice() * 0.15) - (dispatchServiceSalaryForDay.getSalary() + type.getPrice() * 0.15) * discount));
+                .filter(item -> item.getCreateTime().equals(type.getCreateTime())).findFirst().orElseThrow(() ->
+                        new ObjectNotFoundException("dispatch service salary on date [" + type.getCreateTime()
+                                + "] don`t exist"));
+        dispatchServiceSalaryForDay.setSalary((int)((dispatchServiceSalaryForDay.getSalary() + type.getPrice() * 0.15) -
+                (dispatchServiceSalaryForDay.getSalary() + type.getPrice() * 0.15) * discount));
         dispatchServiceSalaryForDayRepository.save(dispatchServiceSalaryForDay);
+
+        Order order = orderService.getById(type.getOrder().getId());
+        order.setCompleted(true);
+        orderService.save(order);
+
         return repository.save(type);
     }
 
@@ -95,5 +120,10 @@ public class CheckServiceImpl implements ICheckService, IGenericService<Check> {
         return check;
     }
 
+    public List<Check> getOrdersByDateAndSortedForDistance(LocalDate date){
+        return this.getAll().stream()
+                .filter(item -> item.getCreateTime().equals(date))
+                .sorted((Comparator.comparing(Check::getDistance))).collect(Collectors.toList());
+    }
 
 }

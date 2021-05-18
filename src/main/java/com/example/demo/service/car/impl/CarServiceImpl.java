@@ -4,6 +4,7 @@ import com.example.demo.data.FakeData;
 import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.exceptions.ObjectNotFoundException;
 import com.example.demo.model.Car;
+import com.example.demo.model.CarClass;
 import com.example.demo.model.TaxiOffice;
 import com.example.demo.repository.car.CarRepository;
 import com.example.demo.repository.order.OrderRepository;
@@ -68,5 +69,15 @@ public class CarServiceImpl implements ICarService, IGenericService<Car> {
                 .collect(Collectors.toList()));
         carRepository.deleteById(id);
         return car;
+    }
+
+    public List<Car> getAllAndOrderByModel(){
+        return carRepository.findAllByOrderByModell();
+    }
+
+    public List<Car> getCarsFromSomeTaxiOfficeAndWithSomeCarClass(String taxiOfficeId, String carClass){
+        return carRepository.findAllByTaxiOfficeId(taxiOfficeId).stream()
+                .filter(item -> item.getModell().getCarClass().equals(CarClass.valueOf(carClass)))
+                .collect(Collectors.toList());
     }
 }

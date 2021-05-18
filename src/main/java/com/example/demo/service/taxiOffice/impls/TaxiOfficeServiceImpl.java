@@ -4,9 +4,10 @@ import com.example.demo.dao.taxiOffice.impls.TaxiOfficeDAOImpl;
 import com.example.demo.dao.taxiOffice.interfaces.ITaxiOfficeDAO;
 import com.example.demo.data.FakeData;
 import com.example.demo.exceptions.ObjectNotFoundException;
-import com.example.demo.model.TaxiOffice;
+import com.example.demo.model.*;
 import com.example.demo.repository.car.CarRepository;
 import com.example.demo.repository.driver.DriverRepository;
+import com.example.demo.repository.order.OrderRepository;
 import com.example.demo.repository.taxiOffice.TaxiOfficeRepository;
 import com.example.demo.repository.taxiOfficeSalaryForDay.TaxiOfficeSalaryForDayRepository;
 import com.example.demo.repository.taxiOfficeSalaryForInterval.TaxiOfficeSalaryForIntervalRepository;
@@ -16,13 +17,16 @@ import com.example.demo.service.taxiOffice.interfaces.ITaxiOfficeService;
 import com.example.demo.service.taxiOfficeSalaryForDay.impls.TaxiOfficeSalaryForDayServiceImpl;
 import com.example.demo.service.taxiOfficeSalaryForInterval.impls.TaxiOfficeSalaryForIntervalServiceImpl;
 import org.apache.logging.log4j.LogManager;
+import org.bson.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +45,11 @@ public class TaxiOfficeServiceImpl implements ITaxiOfficeService, IGenericServic
     @Autowired
     TaxiOfficeRepository taxiOfficeRepository;
     @Autowired
+    MongoTemplate mongoTemplate;
+    @Autowired
     DriverRepository driverRepository;
+    @Autowired
+    OrderServiceImpl orderService;
     @Autowired
     CarRepository carRepository;
     @Autowired
@@ -110,5 +118,34 @@ public class TaxiOfficeServiceImpl implements ITaxiOfficeService, IGenericServic
         LOGGER.info("taxi office with id:[" + id +"] was deleted");
         taxiOfficeRepository.deleteById(id);
         return taxiOffice;
+    }
+
+    public Document getStatisticSameTaxiOfficeByDriverMarks(String taxiOfficeId){
+        Document document = new Document();
+        List<Driver> drivers = driverRepository.findAllByTaxiOfficeId(taxiOfficeId);
+        document.append("max", drivers.stream().mapToLong(Driver::getMark).max().orElse(0));
+        document.append("min", drivers.stream().mapToLong(Driver::getMark).min().orElse(0));
+        document.append("avg", drivers.stream().mapToDouble(Driver::getMark).average().orElse(0));
+        return document;
+    }
+
+    public Document getStatisticForSomeTaxiOfficeByOrders(String taxiOfficeId){
+        Document document = new Document();
+        List<Order> orders = orderService.getAll().stream().filter(item -> item.getCar().getTaxiOffice().getId().equals(taxiOfficeId)).collect(Collectors.toList());
+        document.append("completed", orders.stream().filter(item -> item.getCompleted()).count());
+        document.append("uncompleted", orders.stream().filter(item -> item.getCompleted().equals(false)).count());
+        return document;
+    }
+    public List<TaxiOfficeStatisticBySalaryAndOrders> getStatistic(){
+        List<TaxiOfficeStatisticBySalaryAndOrders> statistic = new ArrayList<>();
+        this.getAll().forEach(item ->
+            statistic.add(new TaxiOfficeStatisticBySalaryAndOrders(
+                    item,
+                    taxiOfficeSalaryForDayRepository.findAllByTaxiOfficeId(item.getId()).stream().mapToInt(TaxiOfficeSalaryForDay::getSalary).sum(),
+                    orderService.getAll().stream().filter(order -> order.getCompleted()).count(),
+                    orderService.getAll().stream().filter(order -> order.getCompleted().equals(false)).count()
+            ))
+        );
+        return statistic;
     }
 }

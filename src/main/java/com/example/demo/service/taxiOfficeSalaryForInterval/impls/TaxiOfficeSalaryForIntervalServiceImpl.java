@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,6 +64,14 @@ public class TaxiOfficeSalaryForIntervalServiceImpl implements ITaxiOfficeServic
         return modell;
     }
 
-
+    public List<TaxiOfficeSalaryForInterval> getSortedSalaryForSomeInterval(LocalDate from, LocalDate to) {
+        return this.getAll().stream()
+                .filter(item -> (item.getFrom().equals(from) ||
+                                item.getFrom().isAfter(from)) &&
+                        (item.getTo().equals(to) ||
+                                item.getTo().isBefore(to)))
+                .sorted(Comparator.comparing(TaxiOfficeSalaryForInterval::getSalary))
+                .collect(Collectors.toList());
+    }
 
 }

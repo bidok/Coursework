@@ -17,4 +17,5 @@ public interface OrderRepository extends MongoRepository<Order, String> {
     List<Order> findAllByCarId(String id);
     List<Order> findAllByOperatorId(String id);
     List<Order> findAllByCustomerId(String id);
+    List<Order> findAllByCompletedIsFalse();
 }

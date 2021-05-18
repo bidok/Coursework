@@ -13,6 +13,7 @@ import com.example.demo.service.driverSalaryForInterval.interfaces.IDriverSalary
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,5 +60,14 @@ public class DriverSalaryForIntervalServiceImpl implements IDriverSalaryForInter
         return modell;
     }
 
-//
+    public List<DriverSalaryForInterval> getSalaryForSomeIntervalAndSomeTaxiOffice(String taxiOfficeId, LocalDate from, LocalDate to){
+        return this.getAll().stream()
+                .filter(item -> item.getDriver().getTaxiOffice().getId().equals(taxiOfficeId) &&
+                                (item.getFrom().equals(from) ||
+                                    item.getFrom().isAfter(from)) &&
+                                (item.getTo().equals(to) ||
+                                    item.getTo().isBefore(to)))
+                .collect(Collectors.toList());
+    }
+
 }

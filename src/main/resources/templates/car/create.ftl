@@ -11,7 +11,23 @@
 
             background-repeat: no-repeat;
             background-size: cover;
-
+        }
+        .changeBitton{
+            background-color: lightgray;
+            border: none;
+            border-right: 1px lightgrey solid;
+            border-radius: 2px;
+        }
+        .changeBitton:hover{
+            background: none;
+            border: 1px lightgray solid;
+        }
+        a{
+            color: black;
+            text-decoration: none;
+        }
+        a:hover{
+            color: black;
         }
     </style>
 </head>
@@ -86,7 +102,15 @@
                     </ul>
                 </li>
 
-
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Time Table
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="/ui/timetable/driver/get/all">Driver</a></li>
+                        <li><a class="dropdown-item" href="/ui/timetable/operator/get/all">Operator</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
@@ -122,17 +146,37 @@
                 <@spring.formSingleSelect "carForm.modell", models, ""/>
             </div>
 
+
+<#--            <div class="input-group mb-3">-->
+<#--                <label class="input-group-text" style="width: 120px" for="inputGroupSelect01">taxi Office</label>-->
+<#--                <select class="form-select testclass" id="inputGroupSelect01"-->
+<#--                <@spring.formSingleSelect "carForm.taxiOffice", taxiOffice, "text"/>-->
+<#--            </div>-->
+<#--                <button type="button" onclick=test()><a id="taxiOfficeFilter" href="#">asdas</a></button>-->
+            <div class="input-group mb-3" style="height: 31px">
+                <button class="changeBitton" type="button" onclick=test() style="width: 120px"><a id="taxiOfficeFilter" href="#" >set office</a></button>
+                <select class="form-select testclass" id="inputGroupSelect03" aria-label="Example select with button addon"
+                <@spring.formSingleSelect "carForm.taxiOffice", taxiOffice, "text"/>
+                </select>
+            </div>
+
+
+            <script type="text/javascript">
+                function test() {
+                    let el = document.getElementById("taxiOfficeFilter");
+                    let val = document.getElementsByClassName("testclass")[0];
+                    el.setAttribute("href", "/ui/car/create?taxiOffice=" + val.value)
+                    console.log("sad")
+                }
+            </script>
+
             <div class="input-group input-group-sm mb-3">
                 <label class="input-group-text" style="width: 120px" for="inputGroupSelect01">Driver</label>
                 <select class="form-select" id="inputGroupSelect01"
                 <@spring.formSingleSelect "carForm.driver", drivers, "text"/>
             </div>
 
-            <div class="input-group mb-3">
-                <label class="input-group-text" style="width: 120px" for="inputGroupSelect01">taxi Office</label>
-                <select class="form-select" id="inputGroupSelect01"
-                <@spring.formSingleSelect "carForm.taxiOffice", taxiOffice, ""/>
-            </div>
+
 
 
 
@@ -140,5 +184,8 @@
         </form>
 
     </div>
+<sript>
+
+</sript>
 </body>
 </html>

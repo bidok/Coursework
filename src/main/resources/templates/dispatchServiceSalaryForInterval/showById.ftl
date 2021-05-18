@@ -89,7 +89,15 @@
 
                     </ul>
                 </li>
-
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Time Table
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="/ui/timetable/driver/get/all">Driver</a></li>
+                        <li><a class="dropdown-item" href="/ui/timetable/operator/get/all">Operator</a></li>
+                    </ul>
+                </li>
 
             </ul>
         </div>

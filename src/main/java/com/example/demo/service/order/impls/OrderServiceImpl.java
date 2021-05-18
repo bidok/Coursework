@@ -4,6 +4,7 @@ import com.example.demo.data.FakeData;
 import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.exceptions.ObjectNotFoundException;
 import com.example.demo.model.Car;
+import com.example.demo.model.Check;
 import com.example.demo.model.Order;
 import com.example.demo.repository.car.CarRepository;
 import com.example.demo.repository.check.CheckRepository;
@@ -17,8 +18,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 

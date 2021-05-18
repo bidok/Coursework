@@ -1,6 +1,7 @@
 package com.example.demo.repository.taxiOffice;
 
 import com.example.demo.model.TaxiOffice;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

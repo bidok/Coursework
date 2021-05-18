@@ -5,6 +5,8 @@ import com.example.demo.dao.driver.interfaces.IDriverDAO;
 import com.example.demo.data.FakeData;
 import com.example.demo.exceptions.ObjectNotFoundException;
 import com.example.demo.model.Driver;
+import com.example.demo.model.DriverSalaryForDay;
+import com.example.demo.model.DriverStatisticBySalaryAndOrder;
 import com.example.demo.model.TaxiOffice;
 import com.example.demo.repository.car.CarRepository;
 import com.example.demo.repository.driver.DriverRepository;
@@ -14,14 +16,15 @@ import com.example.demo.repository.driverTimeTable.DriverTimeTableRepository;
 import com.example.demo.repository.taxiOffice.TaxiOfficeRepository;
 import com.example.demo.service.IGenericService;
 import com.example.demo.service.driver.interfaces.IDriverService;
+import com.example.demo.service.order.impls.OrderServiceImpl;
 import com.example.demo.service.taxiOffice.impls.TaxiOfficeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -35,6 +38,8 @@ public class DriverServiceImpl implements IDriverService, IGenericService<Driver
     DriverDAOImpl driverDAO;
     @Autowired
     DriverRepository driverRepository;
+    @Autowired
+    OrderServiceImpl orderService;
     @Autowired
     DriverTimeTableRepository driverTimeTableRepository;
     @Autowired
@@ -95,9 +100,31 @@ public class DriverServiceImpl implements IDriverService, IGenericService<Driver
         return driver;
     }
 
+    public List<Driver> getFirst10DriversWithBestMarkForSomeTaxiOffice(String taxiOfficeId){
+        return driverRepository.findAllByTaxiOfficeId(taxiOfficeId).stream()
+                .sorted(Comparator.comparing(Driver::getMark).reversed())
+                .limit(10)
+                .collect(Collectors.toList());
+    }
 
+    public List<DriverStatisticBySalaryAndOrder> getDriverStatisticBySalaryAndOrderForSomeTaxiOffice(String taxiOfficeId){
+        List<DriverStatisticBySalaryAndOrder> statistic = new ArrayList<>();
+        driverRepository.findAllByTaxiOfficeId(taxiOfficeId).forEach(item ->
+                new DriverStatisticBySalaryAndOrder(
+                        item,
+                        driverSalaryForDayRepository.findAllByDriverId(item.getId()).stream().mapToInt(DriverSalaryForDay::getSalary).sum(),
+                        orderService.getAll().stream().filter(order -> order.getCar().getDriver().equals(item)).count()
+                ));
+        return statistic;
+    }
 
-
-
+    public List<Driver> get10DriverWithBiggestNumOfCompletedOrders(){
+        Map<Driver, Long> drivers =  new HashMap<>();
+        this.getAll().forEach(driver ->
+                drivers.put(driver, orderService.getAll().stream().filter(order -> order.getCar().getDriver().equals(driver) &&
+                        order.getCompleted()).count())
+        );
+        return drivers.entrySet().stream().sorted((Comparator.comparing(Map.Entry::getValue))).map(Map.Entry::getKey).collect(Collectors.toList());
+    }
 
 }

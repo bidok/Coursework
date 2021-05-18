@@ -16,4 +16,6 @@ import java.util.List;
 public interface DriverRepository extends MongoRepository<Driver, String> {
     void deleteAllByTaxiOfficeId(String id);
     List<Driver> findAllByTaxiOfficeId(String id);
+    List<Driver> findAllByTaxiOfficeIdAndMark(String taxiOfficeId, Integer mark);
+    List<Driver> findAllByTaxiOfficeName(String taxiOfficeName);
 }

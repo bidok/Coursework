@@ -2,6 +2,7 @@ package com.example.demo.service.driverTimeTable.impl;
 
 import com.example.demo.data.FakeData;
 import com.example.demo.exceptions.ObjectNotFoundException;
+import com.example.demo.model.Driver;
 import com.example.demo.model.DriverTimeTable;
 import com.example.demo.model.OperatorTimeTable;
 import com.example.demo.repository.driverTimeTable.DriverTimeTableRepository;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,11 +57,7 @@ public class DriverTimeTableServiceImpl implements IDriverTimeTableService, IGen
         return driverTimeTable;
     }
 
-//    List<DriverTimeTable> list = new ArrayList<>();
-//
-//    @PostConstruct
-//    void init() {
-//        list = fakeData.getOperatorTimeTables();
-//        repository.saveAll(list);
-//    }
+    public List<Driver> getDriverWhoWorksAtSomeDate(LocalDate date){
+       return this.getAll().stream().filter(item -> item.getCreateTime().equals(date)).map(DriverTimeTable::getWorker).collect(Collectors.toList());
+    }
 }
