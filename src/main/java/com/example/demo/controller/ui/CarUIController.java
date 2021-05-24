@@ -3,6 +3,7 @@ package com.example.demo.controller.ui;
 import com.example.demo.form.CarForm;
 import com.example.demo.model.Car;
 import com.example.demo.model.Driver;
+import com.example.demo.model.Marka;
 import com.example.demo.model.Modell;
 import com.example.demo.model.TaxiOffice;
 import com.example.demo.repository.driver.DriverRepository;
@@ -93,7 +94,7 @@ public class CarUIController {
 	}
 
 	@GetMapping("/update/{id}")
-	public String update(@PathVariable String id, Model model) {
+	public String update(@RequestParam(required = false, defaultValue = "") String taxiOffice,@PathVariable String id, Model model) {
 		Car car = service.getById(id);
 		CarForm carForm = new CarForm();
 		carForm.setCarNumber(car.getCarNumber());
@@ -109,12 +110,19 @@ public class CarUIController {
 				.getName());
 
 		model.addAttribute("carForm", carForm);
+		model.addAttribute("marka", Marka.values());
 		model.addAttribute("models", modelService.getAll()
 				.stream()
 				.collect(Collectors.toMap(Modell::getId, Modell::getName)));
-		model.addAttribute("drivers", driverService.getAll()
-				.stream()
-				.collect(Collectors.toMap(Driver::getId, Driver::getName)));
+		if (taxiOffice != null && !taxiOffice.isEmpty()) {
+			model.addAttribute("drivers", driverRepository.findAllByTaxiOfficeId(taxiOffice)
+					.stream()
+					.collect(Collectors.toMap(Driver::getId, Driver::getName)));
+		} else {
+			model.addAttribute("drivers", driverService.getAll()
+					.stream()
+					.collect(Collectors.toMap(Driver::getId, Driver::getName)));
+		}
 		model.addAttribute("taxiOffice", taxiOfficeService.getAll()
 				.stream()
 				.collect(Collectors.toMap(TaxiOffice::getId, TaxiOffice::getName)));

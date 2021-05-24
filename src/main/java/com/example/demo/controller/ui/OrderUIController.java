@@ -59,7 +59,9 @@ public class OrderUIController {
         model.addAttribute("orderForm", new OrderForm());
         model.addAttribute("customers", customerService.getAll().stream().collect(Collectors.toMap(Customer::getId, Customer::getName)));
         //model.addAttribute("drivers", driverService.getAll().stream().collect(Collectors.toMap(Driver::getId, Driver::getName)));
-        model.addAttribute("cars", carService.getAll().stream().collect(Collectors.toMap(Car::getId, Car::getCarNumber)));
+        model.addAttribute("cars", carService.getAll().stream()
+                .filter(item -> item.getState().equals(true))
+                .collect(Collectors.toMap(Car::getId, Car::getCarNumber)));
         model.addAttribute("operators", operatorService.getAll().stream().collect(Collectors.toMap(Operator::getId, Operator::getName)));
         model.addAttribute("state", new ArrayList<String>(Arrays.asList("true", "false")));
         return "order/create";

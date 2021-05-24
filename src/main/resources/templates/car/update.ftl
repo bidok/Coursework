@@ -101,7 +101,6 @@
 </nav>
 <div style="width: 500px ;margin: 0 auto; margin-top: 50px">
     <form name="taxiOffice" action="" method="POST">
-
         <div class="input-group input-group-sm mb-3">
             <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 120px">Car Number</span>
             <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"
@@ -130,21 +129,32 @@
             <select class="form-select" id="inputGroupSelect01"
             <@spring.formSingleSelect "carForm.modell", models, ""/>
         </div>
+        <div class="input-group mb-3" style="height: 31px">
+            <button class="changeBitton" type="button" onclick=test() style="width: 120px"><a id="taxiOfficeFilter" href="#" >set office</a></button>
+            <select class="form-select testclass" id="inputGroupSelect03" aria-label="Example select with button addon"
+            <@spring.formSingleSelect "carForm.taxiOffice", taxiOffice, "text"/>
+            </select>
+        </div>
+
+        <script type="text/javascript">
+            function test() {
+                let el = document.getElementById("taxiOfficeFilter");
+                let val = document.getElementsByClassName("testclass")[0];
+                if(!document.URL.includes("?taxiOffice=")){
+                    el.setAttribute("href",document.URL + "?taxiOffice=" + val.value);
+                }
+                else el.setAttribute("href",document.URL.substr(0, 72) + val.value);
+
+                console.log("sad")
+            }
+        </script>
 
         <div class="input-group input-group-sm mb-3">
             <label class="input-group-text" style="width: 120px" for="inputGroupSelect01">Driver</label>
             <select class="form-select" id="inputGroupSelect01"
             <@spring.formSingleSelect "carForm.driver", drivers, "text"/>
         </div>
-
-        <div class="input-group mb-3">
-            <label class="input-group-text" style="width: 120px" for="inputGroupSelect01">taxi Office</label>
-            <select class="form-select" id="inputGroupSelect01"
-            <@spring.formSingleSelect "carForm.taxiOffice", taxiOffice, ""/>
-        </div>
-
-
-        <button type="submit" class="btn btn-outline-dark" style="margin-left: 45%">Update</button>
+        <button type="submit" class="btn btn-outline-dark" style="margin-left: 45%">Create</button>
     </form>
 </div>
 </body>

@@ -53,7 +53,7 @@ public class TaxiOfficeRestController {
         return taxiOfficeService.deleteById(id);
     }
     @ApiOperation(value = "create taxi services", notes = "create without id")
-    @RequestMapping(value = "/create/", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public TaxiOffice create(@RequestBody TaxiOffice taxiOffice){
         LOGGER.info("method create from rest controller for taxi office was called");
         return taxiOfficeService.save(taxiOffice);

@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,7 +20,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class DispatchServiceSalaryForDay extends Audit{
     @Id
+    @ApiModelProperty("salary id, must be UUID")
     private String id;
+    @ApiModelProperty("salary, UAH")
     private Integer salary;
 
 

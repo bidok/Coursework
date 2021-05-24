@@ -4,6 +4,7 @@ import com.example.demo.model.DriverTimeTable;
 import com.example.demo.model.OperatorTimeTable;
 import com.example.demo.service.driverTimeTable.impl.DriverTimeTableServiceImpl;
 import com.example.demo.service.operatorTimeTable.impl.OperatorTimeTableServiceImpl;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,22 +21,26 @@ import java.util.List;
 public class DriverTimeTableRestController {
     private final DriverTimeTableServiceImpl service;
 
-    @GetMapping("/get/all")
+    @ApiOperation(value = "get all driver time table")
+    @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<DriverTimeTable> getAll(){
         return service.getAll();
     }
 
-    @GetMapping("/get/{id}")
+    @ApiOperation(value = "get driver time table by id", notes = "id must be UUID")
+    @RequestMapping(value ="/get/{id}", method = RequestMethod.GET)
     public DriverTimeTable getById (@PathVariable String id){
         return service.getById(id);
     }
 
-    @PostMapping("/save")
+    @ApiOperation(value = "save driver time table", notes = "if id are exist is create method else update method")
+    @RequestMapping(value ="/save", method = RequestMethod.POST)
     public DriverTimeTable save(@RequestBody DriverTimeTable operatorTimeTable){
         return service.save(operatorTimeTable);
     }
 
-    @RequestMapping("delete/{id}")
+    @ApiOperation(value = "delete driver time table by id", notes = "id must be UUID")
+    @RequestMapping(value ="delete/{id}", method = RequestMethod.GET)
     public DriverTimeTable delete(@PathVariable String id){
         return service.deleteById(id);
     }

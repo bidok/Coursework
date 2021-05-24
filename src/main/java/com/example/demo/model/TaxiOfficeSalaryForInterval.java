@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -23,11 +24,16 @@ import java.util.Map;
 @Document
 public class TaxiOfficeSalaryForInterval extends Audit{
     @Id
+    @ApiModelProperty("salary id, must be UUID")
     private String id;
     @DBRef
+    @ApiModelProperty("taxiOffice, must be exist")
     private TaxiOffice taxiOffice;
+    @ApiModelProperty("salary, UAH")
     private Integer salary;
+    @ApiModelProperty("from, date(yyyy-mm-dd)")
     private LocalDate from;
+    @ApiModelProperty("to, date(yyyy-mm-dd)")
     private LocalDate to;
 
     public TaxiOfficeSalaryForInterval(TaxiOffice taxiOffice, int salary,LocalDate from, LocalDate to) {

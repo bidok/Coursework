@@ -6,8 +6,11 @@ import com.example.demo.model.DispatchServiceSalaryForDay;
 import com.example.demo.model.DriverSalaryForDay;
 import com.example.demo.repository.dispatchServiceSalaryForDay.DispatchServiceSalaryForDayRepository;
 import com.example.demo.service.IGenericService;
+import com.example.demo.service.customer.impls.CustomerServiceImpl;
 import com.example.demo.service.dispatchServiceSalaryForDay.interfaces.IDispatchServiceSalaryForDayService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -27,29 +30,37 @@ public class DispatchServiceSalaryForDayServiceImpl implements IDispatchServiceS
     private final DispatchServiceSalaryForDayRepository repository;
     private final FakeData fakeData;
 
+    private static  final Logger LOGGER = LoggerFactory.getLogger(DispatchServiceSalaryForDayServiceImpl.class);
+
     @Override
     public DispatchServiceSalaryForDay getById(String id) {
+        LOGGER.info("method get by id [" + id + "] was called");
         return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("dispatch service salary for day with id: [" + id + "] not found"));
     }
 
     @Override
     public List<DispatchServiceSalaryForDay> getAll() {
+        LOGGER.info("method get all was called");
         return repository.findAll();
     }
 
     @Override
     public DispatchServiceSalaryForDay save(DispatchServiceSalaryForDay modell) {
+        LOGGER.info("method save was called ");
         if (this.getAll().stream().anyMatch(item -> item.getId().equals(modell.getId()))) {
+            LOGGER.info("object with id: [" + modell.getId() + "] was updated");
             modell.setUpdateTime(LocalDateTime.now());
             modell.setCreateTime(getById(modell.getId()).getCreateTime());
-        }
+        } else LOGGER.info("object was created");
         return repository.save(modell);
     }
 
     @Override
     public DispatchServiceSalaryForDay deleteById(String id) {
+        LOGGER.info("method delete was called");
         DispatchServiceSalaryForDay modell = this.getById(id);
         repository.deleteById(id);
+        LOGGER.info("object with id:[" + id +"] was deleted");
         return modell;
     }
 

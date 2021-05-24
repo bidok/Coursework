@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,10 +23,14 @@ import java.time.*;
 @Document
 public abstract class TimeTable<O> extends Audit{
     @Id
+    @ApiModelProperty("time table exist, must be UUID")
     private String id;
+    @ApiModelProperty("start of work, must be exist")
     private LocalTime startWork;
+    @ApiModelProperty("end of work, must be exist")
     private LocalTime endWork;
     @DBRef
+    @ApiModelProperty("worker, can be operator or driver")
     private O worker;
 
     public TimeTable( LocalTime startWork, LocalTime endWork, O worker) {

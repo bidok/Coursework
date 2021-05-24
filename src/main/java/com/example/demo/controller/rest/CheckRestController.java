@@ -32,12 +32,12 @@ public class CheckRestController {
         return service.getById(id);
     }
     @ApiOperation(value = "save check", notes = "if you use id it`s UPDATE method, or if not is CREATE method")
-    @PostMapping("/save")
+    @PostMapping(value="/save")
     public Check save(@RequestBody Check check){
         return service.save(check);
     }
     @ApiOperation(value = "delete check by id", notes = "id must be UUID")
-    @RequestMapping("delete/{id}")
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
     public Check delete(@PathVariable String id){
         return service.deleteById(id);
     }

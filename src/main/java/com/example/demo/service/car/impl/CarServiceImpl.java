@@ -15,12 +15,15 @@ import com.example.demo.service.driver.impls.DriverServiceImpl;
 import com.example.demo.service.model.impls.ModelServiceImpl;
 import com.example.demo.service.taxiOffice.impls.TaxiOfficeServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -35,27 +38,39 @@ public class CarServiceImpl implements ICarService, IGenericService<Car> {
     private final OrderRepository orderRepository;
     private final FakeData fakeData;
 
+    private static  final Logger LOGGER = LoggerFactory.getLogger(CarServiceImpl.class);
+
     @Override
     public Car getById(String id) {
+        LOGGER.info("method get by id [" + id + "] was called");
         return carRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("car not fount whit id: [" + id + "]"));
     }
 
     @Override
     public List<Car> getAll() {
-        return carRepository.findAll();
+        LOGGER.info("method get all was called");
+        return carRepository.findAll().stream()
+                .filter(Objects::nonNull)
+                .filter(item -> item.getCarNumber() != null && !item.getCarNumber().equals("undefined"))
+                .collect(Collectors.toList());
     }
 
     @Override
     public Car save(Car car) {
-
+        LOGGER.info("method save was called");
         car.setTaxiOffice(car.getDriver().getTaxiOffice());
-        if(this.getAll().stream().anyMatch(item -> item.getId().equals(car.getId()))){
+        List<Car> cars = this.getAll();
+        if(cars.stream().anyMatch(item -> item.getId().equals(car.getId()))){
             car.setUpdateTime(LocalDateTime.now());
             car.setCreateTime(getById(car.getId()).getCreateTime());
-
+            LOGGER.info("tax office with id: [" + car.getId() + "] was updated");
         }else {
-            if(this.getAll().stream().anyMatch(item -> item.getCarNumber().equals(car.getCarNumber()))){
+            LOGGER.info("taxi office was created");
+            if(cars.stream().anyMatch(item -> item.getCarNumber().equals(car.getCarNumber()))){
                 throw new InvalidDataException("car whit this car number are exist");
+            }
+            if(cars.stream().anyMatch(item -> item.getDriver().equals(car.getDriver()))){
+                throw new InvalidDataException("driver with id [" + car.getDriver().getId() + "] are busy");
             }
         }
        return carRepository.save(car);
@@ -63,6 +78,7 @@ public class CarServiceImpl implements ICarService, IGenericService<Car> {
 
     @Override
     public Car deleteById(String id) {
+        LOGGER.info("method delete for taxi office was called");
         Car car = this.getById(id);
         orderRepository.saveAll(orderRepository.findAllByCarId(id).stream()
                 .peek(item -> item.setCar(this.getById("60929ab5301cee4c79df3d6d")))

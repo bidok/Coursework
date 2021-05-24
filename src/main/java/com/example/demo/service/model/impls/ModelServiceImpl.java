@@ -9,7 +9,10 @@ import com.example.demo.model.Modell;
 import com.example.demo.repository.car.CarRepository;
 import com.example.demo.repository.model.ModelRepository;
 import com.example.demo.service.IGenericService;
+import com.example.demo.service.customer.impls.CustomerServiceImpl;
 import com.example.demo.service.model.interfaces.IModelService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -19,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -32,30 +36,38 @@ public class ModelServiceImpl implements IModelService, IGenericService<Modell> 
     private ModelRepository repository;
     @Autowired
     private CarRepository carRepository;
-
     @Autowired
     private FakeData fakeData;
 
+    private static  final Logger LOGGER = LoggerFactory.getLogger(ModelServiceImpl.class);
+
     @Override
     public Modell getById(String id) {
+        LOGGER.info("method get by id [" + id + "] was called");
         return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("model with id: [" + id + "] not found"));
     }
 
     @Override
     public List<Modell> getAll() {
-        return repository.findAll();
+        LOGGER.info("method get all was called");
+        return repository.findAll().stream()
+                .filter(Objects::nonNull)
+                .filter(item -> item.getName() != null && !item.getName().equals("undefined"))
+                .collect(Collectors.toList());
     }
 
     @Override
     public Modell save(Modell modell) {
+        LOGGER.info("method save was called ");
         Marka[] markas = Marka.values();
         CarClass[] carClasses = CarClass.values();
 
         if(this.getAll().stream().anyMatch(item -> item.getId().equals(modell.getId()))){
+            LOGGER.info("object with id: [" + modell.getId() + "] was updated");
             modell.setUpdateTime(LocalDateTime.now());
             modell.setCreateTime(getById(modell.getId()).getCreateTime());
         }
-
+        else LOGGER.info("object was created");
         if(Arrays.stream(markas).filter(item -> item.equals(modell.getMarka())).count() == 0){
             throw new InvalidDataException("incorrect [" + modell.getMarka() + "] marka");
         }
@@ -67,12 +79,14 @@ public class ModelServiceImpl implements IModelService, IGenericService<Modell> 
 
     @Override
     public Modell deleteById(String id) {
+        LOGGER.info("method delete was called");
         Modell modell = this.getById(id);
         carRepository.saveAll(carRepository.findAllByModellId(id).stream()
                 .peek(item -> {
                     item.setModell(this.getById("60928ca1ad2dd355bc15f7a3"));
                 }).collect(Collectors.toList()));
         repository.deleteById(id);
+        LOGGER.info("object with id:[" + id +"] was deleted");
         return modell;
     }
 

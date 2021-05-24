@@ -145,14 +145,6 @@
                 <select class="form-select" id="inputGroupSelect01"
                 <@spring.formSingleSelect "carForm.modell", models, ""/>
             </div>
-
-
-<#--            <div class="input-group mb-3">-->
-<#--                <label class="input-group-text" style="width: 120px" for="inputGroupSelect01">taxi Office</label>-->
-<#--                <select class="form-select testclass" id="inputGroupSelect01"-->
-<#--                <@spring.formSingleSelect "carForm.taxiOffice", taxiOffice, "text"/>-->
-<#--            </div>-->
-<#--                <button type="button" onclick=test()><a id="taxiOfficeFilter" href="#">asdas</a></button>-->
             <div class="input-group mb-3" style="height: 31px">
                 <button class="changeBitton" type="button" onclick=test() style="width: 120px"><a id="taxiOfficeFilter" href="#" >set office</a></button>
                 <select class="form-select testclass" id="inputGroupSelect03" aria-label="Example select with button addon"
@@ -168,6 +160,7 @@
                     el.setAttribute("href", "/ui/car/create?taxiOffice=" + val.value)
                     console.log("sad")
                 }
+
             </script>
 
             <div class="input-group input-group-sm mb-3">

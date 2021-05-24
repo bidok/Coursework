@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,9 +19,13 @@ import java.util.Objects;
 @Document
 public class DiscountCard extends Audit{
     @Id
+    @ApiModelProperty("card id, must be UUID")
     private String id;
+    @ApiModelProperty("card number, can`t repeat")
     private String cardNumber;
+    @ApiModelProperty("discount, percents")
     private Integer discount;
+    @ApiModelProperty("distance, km")
     private Integer distance;
 
     public DiscountCard( String cardNumber, int discount, int distance) {

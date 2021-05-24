@@ -10,14 +10,21 @@ import com.example.demo.repository.customer.CustomerRepository;
 import com.example.demo.repository.order.OrderRepository;
 import com.example.demo.service.IGenericService;
 import com.example.demo.service.customer.interfaces.ICustomerService;
+import com.example.demo.service.discountCard.impls.DiscountCardServiceImpl;
+import com.example.demo.service.taxiOffice.impls.TaxiOfficeServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -30,36 +37,54 @@ import java.util.stream.Collectors;
 public class CustomerServiceImpl implements ICustomerService, IGenericService<Customer> {
     private final CustomerRepository repository;
     private final OrderRepository orderRepository;
+    private final DiscountCardServiceImpl discountCardService;
     private final FakeData fakeData;
+
+    private static  final Logger LOGGER = LoggerFactory.getLogger(CustomerServiceImpl.class);
 
     @Override
     public Customer getById(String id) {
+        LOGGER.info("method get by id [" + id + "] was called");
         return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("discound card with id: [" + id +"] no found"));
 
     }
 
     @Override
     public List<Customer> getAll() {
-        return repository.findAll();
+        LOGGER.info("method get all was called");
+        return repository.findAll().stream()
+                .filter(Objects::nonNull)
+                .filter(item -> item.getDiscountCard() != null && !item.getDiscountCard().getId().equals("60929d99301cee4c79df3d6f"))
+                .collect(Collectors.toList());
     }
 
     @Override
     public Customer save(Customer type) {
+        LOGGER.info("method save was called ");
         if(this.getAll().stream().anyMatch(item -> item.getId().equals(type.getId()))){
+            LOGGER.info("object with id: [" + type.getId() + "] was updated");
             type.setUpdateTime(LocalDateTime.now());
             type.setCreateTime(getById(type.getId()).getCreateTime());
         }
-
+        else {
+             LOGGER.info("object was created");
+            List<String> cards = discountCardService.getAll().stream().map(DiscountCard::getCardNumber).collect(Collectors.toList());
+             DiscountCard discountCard = new DiscountCard();
+             discountCard.setDiscount(1);
+             discountCard.setDistance(1);
+        }
         return repository.save(type);
     }
 
     @Override
     public Customer deleteById(String id) {
+        LOGGER.info("method delete was called");
         Customer customer = this.getById(id);
         orderRepository.saveAll(orderRepository.findAllByCustomerId(id).stream()
                 .peek(item -> item.setCustomer(this.getById("60929d99301cee4c79df3d6f")))
                 .collect(Collectors.toList()));
         repository.deleteById(id);
+        LOGGER.info("object with id:[" + id +"] was deleted");
         return customer;
     }
 

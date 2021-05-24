@@ -4,6 +4,7 @@ import com.example.demo.model.DriverSalaryForDay;
 import com.example.demo.model.DriverSalaryForInterval;
 import com.example.demo.service.driverSalaryForDay.impls.DriverSalaryForDayServiceImpl;
 import com.example.demo.service.driverSalaryForInterval.impls.DriverSalaryForIntervalServiceImpl;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,22 +21,26 @@ import java.util.List;
 public class DriverSalaryForIntervalRestController {
     private final DriverSalaryForIntervalServiceImpl service;
 
-    @GetMapping("/get/all")
+    @ApiOperation(value = "get all driver salary for interval, without undefined customer")
+    @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<DriverSalaryForInterval> getAll(){
         return service.getAll();
     }
 
-    @GetMapping("/get/{id}")
+    @ApiOperation(value = "get driver salary for interval by id", notes = "id must be UUID")
+    @RequestMapping(value ="/get/{id}", method = RequestMethod.GET)
     public DriverSalaryForInterval getById (@PathVariable String id){
         return service.getById(id);
     }
 
-    @PostMapping("/save")
+    @ApiOperation(value = "save driver salary for interval", notes = "if id are exist is create method else update method")
+    @RequestMapping(value ="/save", method = RequestMethod.POST)
     public DriverSalaryForInterval save(@RequestBody DriverSalaryForInterval modell){
         return service.save(modell);
     }
 
-    @RequestMapping("delete/{id}")
+    @ApiOperation(value = "delete driver salary for interval by id", notes = "id must be UUID")
+    @RequestMapping(value ="delete/{id}", method = RequestMethod.GET)
     public DriverSalaryForInterval delete(@PathVariable String id){
         return service.deleteById(id);
     }

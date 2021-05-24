@@ -9,6 +9,7 @@ import com.example.demo.repository.driverSalaryForDay.DriverSalaryForDayReposito
 import com.example.demo.repository.driverSalaryForInterval.DriverSalaryForIntervalRepository;
 import com.example.demo.repository.order.OrderRepository;
 import com.example.demo.repository.taxiOffice.TaxiOfficeRepository;
+import com.example.demo.repository.taxiOfficeSalaryForDay.TaxiOfficeSalaryForDayRepository;
 import com.example.demo.service.car.impl.CarServiceImpl;
 import com.example.demo.service.check.impls.CheckServiceImpl;
 import com.example.demo.service.customer.impls.CustomerServiceImpl;
@@ -16,6 +17,7 @@ import com.example.demo.service.driver.impls.DriverServiceImpl;
 import com.example.demo.service.driverSalaryForInterval.impls.DriverSalaryForIntervalServiceImpl;
 import com.example.demo.service.driverTimeTable.impl.DriverTimeTableServiceImpl;
 import com.example.demo.service.taxiOffice.impls.TaxiOfficeServiceImpl;
+import com.example.demo.service.taxiOfficeSalaryForDay.impls.TaxiOfficeSalaryForDayServiceImpl;
 import com.example.demo.service.taxiOfficeSalaryForInterval.impls.TaxiOfficeSalaryForIntervalServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,9 +45,9 @@ public class CourseworkApplication implements CommandLineRunner {
     }
 
     @Autowired
-    DriverSalaryForIntervalRepository repository;
+    TaxiOfficeRepository repository;
     @Autowired
-    TaxiOfficeServiceImpl service;
+    DriverServiceImpl service;
     @Autowired
     MongoTemplate mongoTemplate;
 
@@ -53,7 +55,7 @@ public class CourseworkApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println(service.getStatisticForSomeTaxiOfficeByOrders("608abc4e3fceec0af3849f36"));
+        System.out.println(service.getDriverStatisticBySalaryAndOrderForSomeTaxiOffice("608abc4e3fceec0af3849f36"));;
     }
 
     }

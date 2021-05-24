@@ -4,6 +4,7 @@ import com.example.demo.model.Car;
 import com.example.demo.model.Operator;
 import com.example.demo.repository.operator.OperatorRepository;
 import com.example.demo.service.operator.impl.OperatorServiceImpl;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,22 +20,26 @@ import java.util.List;
 public class OperatorRestController {
     private final OperatorServiceImpl service;
 
-    @GetMapping("/get/all")
+    @ApiOperation(value = "get all operator, without undefined operator")
+    @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<Operator> getAll(){
         return service.getAll();
     }
 
-    @GetMapping("/get/{id}")
+    @ApiOperation(value = "get operator by id", notes = "id must be UUID")
+    @RequestMapping(value ="/get/{id}", method = RequestMethod.GET)
     public Operator getById (@PathVariable String id){
         return service.getById(id);
     }
 
-    @PostMapping("/save")
+    @ApiOperation(value = "save operator", notes = "if id are exist is create method else update method")
+    @RequestMapping(value ="/save", method = RequestMethod.POST)
     public Operator save(@RequestBody Operator operator){
         return service.save(operator);
     }
 
-    @RequestMapping("delete/{id}")
+    @ApiOperation(value = "delete operator by id", notes = "id must be UUID")
+    @RequestMapping(value ="delete/{id}", method = RequestMethod.GET)
     public Operator delete(@PathVariable String id){
         return service.deleteById(id);
     }

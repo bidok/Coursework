@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -19,9 +20,12 @@ import java.util.List;
 @Document
 public class TaxiOfficeSalaryForDay extends Audit{
     @Id
+    @ApiModelProperty("taxi office salary id, must be UUID")
     private String id;
     @DBRef
+    @ApiModelProperty("taxi office, must be exist")
     private TaxiOffice taxiOffice;
+    @ApiModelProperty("salary, UAH")
     private Integer salary;
 
     public TaxiOfficeSalaryForDay(TaxiOffice taxiOffice, int salary) {

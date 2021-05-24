@@ -29,7 +29,9 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.IntSummaryStatistics;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -72,8 +74,10 @@ public class TaxiOfficeServiceImpl implements ITaxiOfficeService, IGenericServic
     @Override
     public List<TaxiOffice> getAll() {
         LOGGER.info("method get all for taxi office was called");
-        return  taxiOfficeRepository.findAll();
-
+        return  taxiOfficeRepository.findAll().stream()
+                .filter(Objects::nonNull)
+                .filter(item -> item.getName() != null && !item.getName().equals("undefined"))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -84,7 +88,6 @@ public class TaxiOfficeServiceImpl implements ITaxiOfficeService, IGenericServic
             type.setCreateTime(getById(type.getId()).getCreateTime());
             LOGGER.info("tax office with id: [" + type.getId() + "] was updated");
         } else LOGGER.info("taxi office was created");
-
         return taxiOfficeRepository.save(type);
     }
 
@@ -120,21 +123,19 @@ public class TaxiOfficeServiceImpl implements ITaxiOfficeService, IGenericServic
         return taxiOffice;
     }
 
-    public Document getStatisticSameTaxiOfficeByDriverMarks(String taxiOfficeId){
-        Document document = new Document();
-        List<Driver> drivers = driverRepository.findAllByTaxiOfficeId(taxiOfficeId);
-        document.append("max", drivers.stream().mapToLong(Driver::getMark).max().orElse(0));
-        document.append("min", drivers.stream().mapToLong(Driver::getMark).min().orElse(0));
-        document.append("avg", drivers.stream().mapToDouble(Driver::getMark).average().orElse(0));
-        return document;
+    public IntSummaryStatistics getStatisticSameTaxiOfficeByDriverMarks(String taxiOfficeId){
+       return driverRepository.findAllByTaxiOfficeId(taxiOfficeId).stream()
+                .filter(item -> !item.getName().equals("undefined"))
+                .collect(Collectors.summarizingInt(Driver::getMark));
     }
 
-    public Document getStatisticForSomeTaxiOfficeByOrders(String taxiOfficeId){
-        Document document = new Document();
+
+    public List<Long> getStatisticForSomeTaxiOfficeByOrders(String taxiOfficeId){
+        List<Long> list = new ArrayList<>();
         List<Order> orders = orderService.getAll().stream().filter(item -> item.getCar().getTaxiOffice().getId().equals(taxiOfficeId)).collect(Collectors.toList());
-        document.append("completed", orders.stream().filter(item -> item.getCompleted()).count());
-        document.append("uncompleted", orders.stream().filter(item -> item.getCompleted().equals(false)).count());
-        return document;
+        list.add(orders.stream().filter(Order::getCompleted).count());
+        list.add(orders.stream().filter(item -> !item.getCompleted()).count());
+        return  list;
     }
     public List<TaxiOfficeStatisticBySalaryAndOrders> getStatistic(){
         List<TaxiOfficeStatisticBySalaryAndOrders> statistic = new ArrayList<>();
@@ -142,8 +143,8 @@ public class TaxiOfficeServiceImpl implements ITaxiOfficeService, IGenericServic
             statistic.add(new TaxiOfficeStatisticBySalaryAndOrders(
                     item,
                     taxiOfficeSalaryForDayRepository.findAllByTaxiOfficeId(item.getId()).stream().mapToInt(TaxiOfficeSalaryForDay::getSalary).sum(),
-                    orderService.getAll().stream().filter(order -> order.getCompleted()).count(),
-                    orderService.getAll().stream().filter(order -> order.getCompleted().equals(false)).count()
+                    orderService.getAll().stream().filter(order -> order.getCar().getTaxiOffice().getId().equals(item.getId()) && order.getCompleted()).count(),
+                    orderService.getAll().stream().filter(order -> order.getCar().getTaxiOffice().getId().equals(item.getId()) && !order.getCompleted()).count()
             ))
         );
         return statistic;

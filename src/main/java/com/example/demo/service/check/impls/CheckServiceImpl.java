@@ -10,9 +10,13 @@ import com.example.demo.repository.driverSalaryForDay.DriverSalaryForDayReposito
 import com.example.demo.repository.order.OrderRepository;
 import com.example.demo.repository.taxiOfficeSalaryForDay.TaxiOfficeSalaryForDayRepository;
 import com.example.demo.service.IGenericService;
+import com.example.demo.service.car.impl.CarServiceImpl;
 import com.example.demo.service.check.interfaces.ICheckService;
 import com.example.demo.service.order.impls.OrderServiceImpl;
+import com.example.demo.service.taxiOffice.impls.TaxiOfficeServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -36,26 +40,34 @@ public class CheckServiceImpl implements ICheckService, IGenericService<Check> {
     private final TaxiOfficeSalaryForDayRepository taxiOfficeSalaryForDayRepository;
     private final DispatchServiceSalaryForDayRepository dispatchServiceSalaryForDayRepository;
     private final OrderServiceImpl orderService;
+    private final CarServiceImpl carService;
     private final FakeData fakeData;
+
+    private static  final Logger LOGGER = LoggerFactory.getLogger(CheckServiceImpl.class);
 
     @Override
     public Check getById(String id) {
+        LOGGER.info("method get by id [" + id + "] was called");
         return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("check with id: [" + id + "] not found"));
     }
 
     @Override
     public List<Check> getAll() {
+        LOGGER.info("method get all office was called");
         return repository.findAll();
     }
 
     @Override
     public Check save(Check type) {
+        LOGGER.info("method save was called ");
         List<Check> list = this.getAll();
         if(list.stream().anyMatch(item -> item.getId().equals(type.getId()))){
+            LOGGER.info("object with id: [" + type.getId() + "] was updated");
             type.setUpdateTime(LocalDateTime.now());
             type.setCreateTime(getById(type.getId()).getCreateTime());
         }
         else {
+            LOGGER.info("object was created");
             type.getOrder().getCustomer().getDiscountCard().setDistance(type.getOrder().getCustomer().getDiscountCard().getDistance() + type.getDistance());
             if(type.getOrder().getCustomer().getDiscountCard().getDistance() >= 100){
                 type.getOrder().getCustomer().getDiscountCard().setDistance(0);
@@ -109,21 +121,27 @@ public class CheckServiceImpl implements ICheckService, IGenericService<Check> {
         Order order = orderService.getById(type.getOrder().getId());
         order.setCompleted(true);
         orderService.save(order);
-
+        Car car = type.getOrder().getCar();
+        car.setState(true);
+        carService.save(car);
         return repository.save(type);
     }
 
     @Override
     public Check deleteById(String id) {
+        LOGGER.info("method delete was called");
         Check check = this.getById(id);
         repository.deleteById(id);
+        LOGGER.info("object with id:[" + id +"] was deleted");
         return check;
     }
 
-    public List<Check> getOrdersByDateAndSortedForDistance(LocalDate date){
+    public List<Order> getOrdersByDateAndSortedForDistance(LocalDate date){
         return this.getAll().stream()
                 .filter(item -> item.getCreateTime().equals(date))
-                .sorted((Comparator.comparing(Check::getDistance))).collect(Collectors.toList());
+                .sorted((Comparator.comparing(Check::getDistance)))
+                .map(Check::getOrder)
+                .collect(Collectors.toList());
     }
 
 }

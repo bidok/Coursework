@@ -115,7 +115,7 @@
         <th>from</th>
         <th>to</th>
         <th>Salary</th>
-        <th>Driver</th>
+        <th>TaxiOffice</th>
         <th></th>
         <th></th>
     </tr>

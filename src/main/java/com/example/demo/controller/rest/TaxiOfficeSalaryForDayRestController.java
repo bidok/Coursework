@@ -23,22 +23,26 @@ public class TaxiOfficeSalaryForDayRestController {
     private final TaxiOfficeSalaryForDayServiceImpl service;
 
 
+    @ApiOperation(value = "get all salary of taxi office for day, without undefined customer")
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<TaxiOfficeSalaryForDay> getAll(){
         return service.getAll();
     }
 
-    @GetMapping("/get/{id}")
+    @ApiOperation(value = "get salary of taxi office for day by id", notes = "id must be UUID")
+    @RequestMapping(value ="/get/{id}", method = RequestMethod.GET)
     public TaxiOfficeSalaryForDay getById (@PathVariable String id){
         return service.getById(id);
     }
 
-    @PostMapping("/save")
+    @ApiOperation(value = "save salary of taxi office for day", notes = "if id are exist is create method else update method")
+    @RequestMapping(value ="/save", method = RequestMethod.POST)
     public TaxiOfficeSalaryForDay save(@RequestBody TaxiOfficeSalaryForDay modell){
         return service.save(modell);
     }
 
-    @RequestMapping("delete/{id}")
+    @ApiOperation(value = "delete salary of taxi office for day by id", notes = "id must be UUID")
+    @RequestMapping(value ="delete/{id}", method = RequestMethod.GET)
     public TaxiOfficeSalaryForDay delete(@PathVariable String id){
         return service.deleteById(id);
     }
