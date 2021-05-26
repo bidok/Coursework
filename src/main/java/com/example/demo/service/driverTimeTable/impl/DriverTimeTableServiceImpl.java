@@ -1,11 +1,15 @@
 package com.example.demo.service.driverTimeTable.impl;
 
 import com.example.demo.data.FakeData;
+import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.exceptions.ObjectNotFoundException;
+import com.example.demo.model.DispatchServiceSalaryForDay;
 import com.example.demo.model.Driver;
 import com.example.demo.model.DriverTimeTable;
 import com.example.demo.model.OperatorTimeTable;
+import com.example.demo.model.TimeTable;
 import com.example.demo.repository.driverTimeTable.DriverTimeTableRepository;
+import com.example.demo.repository.timeTable.TimeTableArchiveRepository;
 import com.example.demo.service.IGenericService;
 import com.example.demo.service.customer.impls.CustomerServiceImpl;
 import com.example.demo.service.driver.impls.DriverServiceImpl;
@@ -20,7 +24,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author : bidok
@@ -31,8 +37,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DriverTimeTableServiceImpl implements IDriverTimeTableService, IGenericService<DriverTimeTable> {
     private final DriverTimeTableRepository repository;
-    private final DriverServiceImpl driverService;
-    private final FakeData fakeData;
+    private final TimeTableArchiveRepository timeTableArchiveRepository;
 
     private static  final Logger LOGGER = LoggerFactory.getLogger(DriverTimeTableServiceImpl.class);
 
@@ -45,7 +50,10 @@ public class DriverTimeTableServiceImpl implements IDriverTimeTableService, IGen
     @Override
     public List<DriverTimeTable> getAll() {
         LOGGER.info("method get all was called");
-        return repository.findAll();
+        return repository.findAll().stream()
+                .filter(Objects::nonNull)
+                .filter(item -> item.getWorker().getName() != null && !item.getWorker().getName().equals("undefined"))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -56,7 +64,9 @@ public class DriverTimeTableServiceImpl implements IDriverTimeTableService, IGen
             type.setUpdateTime(LocalDateTime.now());
             type.setCreateTime(getById(type.getId()).getCreateTime());
         }else LOGGER.info("object was created");
-
+        if(Stream.of(type.getWorker(), type.getEndWork(), type.getStartWork()).anyMatch(Objects::isNull)){
+            throw new InvalidDataException("field int this timetable are exist");
+        }
         return repository.save(type);
     }
 
@@ -70,6 +80,10 @@ public class DriverTimeTableServiceImpl implements IDriverTimeTableService, IGen
     }
 
     public List<Driver> getDriverWhoWorksAtSomeDate(LocalDate date){
-       return this.getAll().stream().filter(item -> item.getCreateTime().equals(date)).map(DriverTimeTable::getWorker).collect(Collectors.toList());
+       return timeTableArchiveRepository.findAll().stream()
+               .filter(item -> item.getClass().equals(DriverTimeTable.class))
+               .filter(item -> item.getCreateTime().equals(date))
+               .map(item -> (Driver)item.getWorker())
+               .collect(Collectors.toList());
     }
 }

@@ -24,6 +24,8 @@ public class Customer extends Audit{
     private String name;
     @ApiModelProperty("customer phone")
     private String phoneNumber;
+    @ApiModelProperty("customer mail")
+    private String mail;
     @DBRef
     @ApiModelProperty("customer cad number, must be exist")
     private DiscountCard discountCard;

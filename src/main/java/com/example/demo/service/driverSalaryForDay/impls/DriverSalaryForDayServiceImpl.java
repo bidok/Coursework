@@ -1,9 +1,9 @@
 package com.example.demo.service.driverSalaryForDay.impls;
 
 import com.example.demo.data.FakeData;
+import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.exceptions.ObjectNotFoundException;
 import com.example.demo.model.DispatchServiceSalaryForDay;
-import com.example.demo.model.Driver;
 import com.example.demo.model.DriverSalaryForDay;
 import com.example.demo.model.DriverSalaryForInterval;
 import com.example.demo.repository.driverSalaryForDay.DriverSalaryForDayRepository;
@@ -17,11 +17,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.sql.Driver;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -47,16 +49,23 @@ public class DriverSalaryForDayServiceImpl implements IDriverSalaryForDayService
     @Override
     public List<DriverSalaryForDay> getAll() {
         LOGGER.info("method get all was called");
-        return repository.findAll();
+        return repository.findAll().stream()
+                .filter(Objects::nonNull)
+                .filter(item -> !item.getDriver().getName().equals("undefined"))
+                .collect(Collectors.toList());
     }
 
     @Override
     public DriverSalaryForDay save(DriverSalaryForDay modell) {
         LOGGER.info("method save was called ");
-        if (this.getAll().stream().anyMatch(item -> item.getId().equals(modell.getId()))) {
+        List<DriverSalaryForDay> salary = this.getAll();
+        if (salary.stream().anyMatch(item -> item.getId().equals(modell.getId()))) {
             LOGGER.info("object with id: [" + modell.getId() + "] was updated");
             modell.setUpdateTime(LocalDateTime.now());
             modell.setCreateTime(getById(modell.getId()).getCreateTime());
+        }
+        if (salary.stream().anyMatch(item -> item.getCreateTime().equals(modell.getCreateTime()))){
+            throw new InvalidDataException("salary are exist");
         }
         else LOGGER.info("object was created");
         return repository.save(modell);
@@ -71,18 +80,8 @@ public class DriverSalaryForDayServiceImpl implements IDriverSalaryForDayService
         return modell;
     }
 
-    @PostConstruct
-    void addNewSalary(){
-        if(LocalTime.now().isAfter(LocalTime.of(0,0)) && LocalTime.now().isAfter(LocalTime.of(0,5))){
-            if(!(this.getAll().stream().anyMatch(item -> item.getCreateTime().equals(LocalDate.now())))){
-                List<DriverSalaryForDay> driverSalaryForDays = new ArrayList<>();
-                driverService.getAll().forEach(item ->
-                        driverSalaryForDays.add(new DriverSalaryForDay(item, 0)));
-                repository.saveAll(driverSalaryForDays);
-                driverSalaryForDays.clear();
-            }
-        }
-    }
+
+
     public List<DriverSalaryForDay> getSalaryForSomeIntervalAndSomeTaxiOffice(String taxiOfficeId, LocalDate from, LocalDate to){
         return this.getAll().stream()
                 .filter(item -> taxiOfficeId.equals(item.getDriver().getTaxiOffice().getId()))

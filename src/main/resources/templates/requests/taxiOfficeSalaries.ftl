@@ -15,7 +15,7 @@
             color: black;
         }
         body{
-            background-image: url("https://image.shutterstock.com/image-vector/urban-background-taxi-car-skyscrapers-260nw-100603252.jpg");
+            background-color: #eda501;
             background-size: 100%;
             background-repeat: no-repeat;
 

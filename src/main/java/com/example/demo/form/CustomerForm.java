@@ -16,5 +16,5 @@ import lombok.NoArgsConstructor;
 public class CustomerForm {
     private String name;
     private String phoneNumber;
-    private String discountCard;
+    private String mail;
 }

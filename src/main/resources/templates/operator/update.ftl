@@ -7,7 +7,7 @@
     <title>Update Taxi Office</title>
     <style>
         body{
-            background-image: url("https://image.shutterstock.com/image-vector/urban-background-taxi-car-skyscrapers-260nw-100603252.jpg");
+            background-color: #eda501;
 
             background-repeat: no-repeat;
             background-size: cover;
@@ -18,7 +18,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="/">Home</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -97,6 +97,9 @@
                 </li>
             </ul>
         </div>
+        <li class="nav-item dropdown" style="float: right">
+            <a href="/logout"><button type="button" class="btn btn-dark">Log out</button></a>
+        </li>
     </div>
 </nav>
 <div style="width: 500px ;margin: 0 auto; margin-top: 50px">

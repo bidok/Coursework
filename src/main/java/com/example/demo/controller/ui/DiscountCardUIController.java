@@ -6,6 +6,7 @@ import com.example.demo.model.DiscountCard;
 import com.example.demo.model.TaxiOffice;
 import com.example.demo.service.discountCard.impls.DiscountCardServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,32 +21,32 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class DiscountCardUIController {
     private  final DiscountCardServiceImpl service;
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping("/get/all")
     public String showAll(Model model){
         model.addAttribute("discountCard", service.getAll());
         return "discountCard/showAll";
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping("/get/{id}")
     public  String getById(@PathVariable String id, Model model){
         model.addAttribute("discountCard", service.getById(id));
         return "discountCard/showById";
     }
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable String id){
         service.deleteById(id);
         return "redirect:/ui/discountcard/get/all";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/create")
     public String create(Model model){
         model.addAttribute("discountCardForm", new DiscountCardForm());
         return "discountCard/create";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public String create(@ModelAttribute("discountCardForm") DiscountCardForm discountCardForm) {
         DiscountCard discountCard = new DiscountCard();
@@ -55,7 +56,7 @@ public class DiscountCardUIController {
         service.save(discountCard);
         return "redirect:/ui/discountcard/get/all";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/update/{id}")
     public String update(@PathVariable String id, Model model){
         DiscountCard discountCard = service.getById(id);
@@ -67,7 +68,7 @@ public class DiscountCardUIController {
         model.addAttribute("discountCardForm", discountCardForm);
         return "discountCard/update";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/update/{id}")
     public String update(@PathVariable String id, @ModelAttribute("discountCardForm") DiscountCardForm discountCardForm){
         DiscountCard discountCard = service.getById(id);

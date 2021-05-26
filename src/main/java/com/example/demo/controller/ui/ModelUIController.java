@@ -6,6 +6,7 @@ import com.example.demo.model.*;
 import com.example.demo.repository.model.ModelRepository;
 import com.example.demo.service.model.impls.ModelServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,25 +29,25 @@ public class ModelUIController {
 
     @Autowired
     ModelServiceImpl modelService;
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping("/get/all")
     public String getAll(Model model){
         model.addAttribute("modells", modelService.getAll());
         return "model/showAll";
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping("/get/{id}")
     public  String getById(@PathVariable String id, Model model){
         model.addAttribute("modell", modelService.getById(id));
         return "model/showById";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable String id){
         modelService.deleteById(id);
         return "redirect:/ui/model/get/all";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/update/{id}")
     public String update(@PathVariable String id, Model model){
         Modell modell = modelService.getById(id);
@@ -66,7 +67,7 @@ public class ModelUIController {
 
         return "model/update";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/update/{id}")
     public String update(@PathVariable String id, @ModelAttribute("modelForm") ModelForm modelForm){
         Modell modell = new Modell();
@@ -79,7 +80,7 @@ public class ModelUIController {
         return "redirect:/ui/model/get/all";
     }
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/create")
     public String create(Model model){
         model.addAttribute("modelForm", new ModelForm());
@@ -96,7 +97,7 @@ public class ModelUIController {
 
         return "model/create";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public String create(@ModelAttribute("driverForm") ModelForm modelForm) {
         Modell modell = new Modell();

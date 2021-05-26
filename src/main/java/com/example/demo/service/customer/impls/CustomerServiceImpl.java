@@ -3,16 +3,19 @@ package com.example.demo.service.customer.impls;
 import com.example.demo.data.FakeData;
 import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.exceptions.ObjectNotFoundException;
+import com.example.demo.model.Car;
 import com.example.demo.model.Customer;
 import com.example.demo.model.DiscountCard;
 import com.example.demo.model.Order;
 import com.example.demo.repository.customer.CustomerRepository;
+import com.example.demo.repository.discountCard.DiscountCardRepository;
 import com.example.demo.repository.order.OrderRepository;
 import com.example.demo.service.IGenericService;
 import com.example.demo.service.customer.interfaces.ICustomerService;
 import com.example.demo.service.discountCard.impls.DiscountCardServiceImpl;
 import com.example.demo.service.taxiOffice.impls.TaxiOfficeServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author : bidok
@@ -38,6 +42,7 @@ public class CustomerServiceImpl implements ICustomerService, IGenericService<Cu
     private final CustomerRepository repository;
     private final OrderRepository orderRepository;
     private final DiscountCardServiceImpl discountCardService;
+    private final DiscountCardRepository discountCardRepository;
     private final FakeData fakeData;
 
     private static  final Logger LOGGER = LoggerFactory.getLogger(CustomerServiceImpl.class);
@@ -54,6 +59,7 @@ public class CustomerServiceImpl implements ICustomerService, IGenericService<Cu
         LOGGER.info("method get all was called");
         return repository.findAll().stream()
                 .filter(Objects::nonNull)
+                .filter(item -> !item.getName().equals("undefined"))
                 .filter(item -> item.getDiscountCard() != null && !item.getDiscountCard().getId().equals("60929d99301cee4c79df3d6f"))
                 .collect(Collectors.toList());
     }
@@ -68,10 +74,23 @@ public class CustomerServiceImpl implements ICustomerService, IGenericService<Cu
         }
         else {
              LOGGER.info("object was created");
-            List<String> cards = discountCardService.getAll().stream().map(DiscountCard::getCardNumber).collect(Collectors.toList());
              DiscountCard discountCard = new DiscountCard();
              discountCard.setDiscount(1);
              discountCard.setDistance(1);
+             List<String> cards = discountCardService.getAll().stream().map(DiscountCard::getCardNumber).collect(Collectors.toList());
+             String number = RandomStringUtils.randomAlphanumeric(10);
+             while (cards.contains(number)){
+                 number = RandomStringUtils.randomAlphanumeric(10);
+
+             }
+            discountCard.setCardNumber(number);
+             discountCardService.save(discountCard);
+
+             type.setDiscountCard(discountCardRepository.findFirstByCardNumber(number));
+
+        }
+        if(Stream.of(type.getDiscountCard(), type.getName(),type.getPhoneNumber()).anyMatch(Objects::isNull)){
+            throw new InvalidDataException("some field in object are null");
         }
         return repository.save(type);
     }
@@ -83,6 +102,7 @@ public class CustomerServiceImpl implements ICustomerService, IGenericService<Cu
         orderRepository.saveAll(orderRepository.findAllByCustomerId(id).stream()
                 .peek(item -> item.setCustomer(this.getById("60929d99301cee4c79df3d6f")))
                 .collect(Collectors.toList()));
+        discountCardRepository.deleteAllByCardNumber(customer.getDiscountCard().getCardNumber());
         repository.deleteById(id);
         LOGGER.info("object with id:[" + id +"] was deleted");
         return customer;

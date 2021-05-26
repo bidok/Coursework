@@ -1,6 +1,7 @@
 package com.example.demo.service.operator.impl;
 
 import com.example.demo.data.FakeData;
+import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.exceptions.ObjectNotFoundException;
 import com.example.demo.model.Operator;
 import com.example.demo.repository.OperatorTimeTable.OperatorTimeTableRepository;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author : bidok
@@ -59,7 +61,9 @@ public class OperatorServiceImpl implements IOperatorService, IGenericService<Op
             type.setUpdateTime(LocalDateTime.now());
             type.setCreateTime(getById(type.getId()).getCreateTime());
         }else LOGGER.info("object was created");
-
+        if(Stream.of(type.getName(), type.getIdentificationCode(), type.getPassportNumber(), type.getPhoneNumber()).anyMatch(Objects::isNull)){
+            throw new InvalidDataException("some field in this object are null");
+        }
         return repository.save(type);
     }
 

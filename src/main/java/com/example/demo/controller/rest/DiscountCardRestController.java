@@ -5,6 +5,7 @@ import com.example.demo.model.Operator;
 import com.example.demo.service.discountCard.impls.DiscountCardServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,21 +21,25 @@ import java.util.List;
 public class DiscountCardRestController {
     private final DiscountCardServiceImpl service;
     @ApiOperation(value = "get all discount cards, without undefined customer")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<DiscountCard> getAll(){
         return service.getAll();
     }
     @ApiOperation(value = "get discount cards by id", notes = "id must be UUID")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping(value ="/get/{id}", method = RequestMethod.GET)
     public DiscountCard getById (@PathVariable String id){
         return service.getById(id);
     }
     @ApiOperation(value = "save discount card", notes = "if id are exist is create method else update method")
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value ="/save", method = RequestMethod.POST)
     public DiscountCard save(@RequestBody DiscountCard discountCard){
         return service.save(discountCard);
     }
     @ApiOperation(value = "delete discount card by id", notes = "id must be UUID")
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value ="delete/{id}", method = RequestMethod.GET)
     public DiscountCard delete(@PathVariable String id){
         return service.deleteById(id);

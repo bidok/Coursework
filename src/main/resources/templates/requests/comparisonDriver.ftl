@@ -15,7 +15,7 @@
             color: black;
         }
         body{
-            background-image: url("https://image.shutterstock.com/image-vector/urban-background-taxi-car-skyscrapers-260nw-100603252.jpg");
+            background-color: #eda501;
             background-size: 100%;
             background-repeat: no-repeat;
 
@@ -111,9 +111,9 @@
 	<table class="table">
 
 		<tr class="table-dark">
-			<th>TaxiOffice</th>
+			<th>Driver</th>
 			<th>salary</th>
-			<th>completed</th>
+			<th>order</th>
 
 		</tr>
 		<#list statistic as stat>

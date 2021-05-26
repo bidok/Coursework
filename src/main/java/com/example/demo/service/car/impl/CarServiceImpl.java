@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author : bidok
@@ -63,9 +64,9 @@ public class CarServiceImpl implements ICarService, IGenericService<Car> {
         if(cars.stream().anyMatch(item -> item.getId().equals(car.getId()))){
             car.setUpdateTime(LocalDateTime.now());
             car.setCreateTime(getById(car.getId()).getCreateTime());
-            LOGGER.info("tax office with id: [" + car.getId() + "] was updated");
+            LOGGER.info("car with id: [" + car.getId() + "] was updated");
         }else {
-            LOGGER.info("taxi office was created");
+            LOGGER.info("car was created");
             if(cars.stream().anyMatch(item -> item.getCarNumber().equals(car.getCarNumber()))){
                 throw new InvalidDataException("car whit this car number are exist");
             }
@@ -73,6 +74,15 @@ public class CarServiceImpl implements ICarService, IGenericService<Car> {
                 throw new InvalidDataException("driver with id [" + car.getDriver().getId() + "] are busy");
             }
         }
+        if(Stream.of(
+                    car.getCarNumber(),
+                    car.getInsuranceNumber(),
+                    car.getLocation(),
+                    car.getDriver(),
+                    car.getModell(),
+                    car.getTaxiOffice())
+                .anyMatch(Objects::isNull))
+            throw new InvalidDataException("some car field are null");
        return carRepository.save(car);
     }
 

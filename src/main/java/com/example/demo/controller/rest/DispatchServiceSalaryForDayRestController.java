@@ -6,6 +6,7 @@ import com.example.demo.service.dispatchServiceSalaryForDay.impls.DispatchServic
 import com.example.demo.service.taxiOfficeSalaryForDay.impls.TaxiOfficeSalaryForDayServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,24 +23,28 @@ public class DispatchServiceSalaryForDayRestController {
     private final DispatchServiceSalaryForDayServiceImpl service;
 
     @ApiOperation(value = "get all salary of dispatch service for day, without undefined customer")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<DispatchServiceSalaryForDay> getAll(){
         return service.getAll();
     }
 
     @ApiOperation(value = "get salary of dispatch service for day by id", notes = "id must be UUID")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping(value ="/get/{id}", method = RequestMethod.GET)
     public DispatchServiceSalaryForDay getById (@PathVariable String id){
         return service.getById(id);
     }
 
     @ApiOperation(value = "save salary of dispatch service for day", notes = "if id are exist is create method else update method")
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value ="/save", method = RequestMethod.POST)
     public DispatchServiceSalaryForDay save(@RequestBody DispatchServiceSalaryForDay modell){
         return service.save(modell);
     }
 
     @ApiOperation(value = "delete salary of dispatch service for day by id", notes = "id must be UUID")
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value ="delete/{id}", method = RequestMethod.GET)
     public DispatchServiceSalaryForDay delete(@PathVariable String id){
         return service.deleteById(id);

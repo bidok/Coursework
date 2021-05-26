@@ -12,5 +12,6 @@ import java.util.List;
  **/
 
 public interface DiscountCardRepository extends MongoRepository<DiscountCard, String> {
-
+	DiscountCard findFirstByCardNumber(String cardNumber);
+	void deleteAllByCardNumber(String cardNumber);
 }

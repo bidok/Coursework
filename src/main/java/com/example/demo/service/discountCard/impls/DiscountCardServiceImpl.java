@@ -3,6 +3,7 @@ package com.example.demo.service.discountCard.impls;
 import com.example.demo.data.FakeData;
 import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.exceptions.ObjectNotFoundException;
+import com.example.demo.model.Car;
 import com.example.demo.model.DiscountCard;
 import com.example.demo.model.Driver;
 import com.example.demo.repository.customer.CustomerRepository;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author : bidok
@@ -66,6 +68,9 @@ public class DiscountCardServiceImpl implements IDiscountCardService, IGenericSe
                     .anyMatch(item -> item.getCardNumber().equals(type.getCardNumber()))) {
                 throw new InvalidDataException("this card are exist");
             }
+        }
+        if(Stream.of(type.getDiscount(), type.getCardNumber(), type.getDistance()).anyMatch(Objects::isNull)){
+            throw new InvalidDataException("some field in object are null");
         }
         return repository.save(type);
     }

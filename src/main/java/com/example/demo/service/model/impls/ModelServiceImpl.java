@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author : bidok
@@ -71,10 +72,13 @@ public class ModelServiceImpl implements IModelService, IGenericService<Modell> 
         if(Arrays.stream(markas).filter(item -> item.equals(modell.getMarka())).count() == 0){
             throw new InvalidDataException("incorrect [" + modell.getMarka() + "] marka");
         }
-        else if (Arrays.stream(carClasses).filter(item -> item.equals(modell.getCarClass())).count() == 0){
+        if (Arrays.stream(carClasses).filter(item -> item.equals(modell.getCarClass())).count() == 0){
             throw new InvalidDataException("incorrect [" + modell.getMarka() + "] car class");
         }
-        else return repository.save(modell);
+        if(Stream.of(modell.getMarka(), modell.getName(), modell.getCarClass(), modell.getDate()).anyMatch(Objects::isNull)){
+            throw new InvalidDataException("some fieal in object are null");
+        }
+        return repository.save(modell);
     }
 
     @Override

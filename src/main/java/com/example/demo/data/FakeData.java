@@ -67,7 +67,7 @@ public class FakeData {
     ));
 
     List<Customer> customers = new ArrayList<>(Arrays.asList(
-       new Customer("608d52febd6c412f8bacc340" ,"alex", "123354353", discountCards.get(0))
+       new Customer("608d52febd6c412f8bacc340" ,"alex", "123354353", "",discountCards.get(0))
     ));
 
     List<Order> orders = new ArrayList<>(Arrays.asList(

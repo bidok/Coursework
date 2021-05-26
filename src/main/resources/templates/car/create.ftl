@@ -7,7 +7,7 @@
     <title>Create Car</title>
     <style>
         body{
-            background-image: url("https://image.shutterstock.com/image-vector/urban-background-taxi-car-skyscrapers-260nw-100603252.jpg");
+            background-color: #eda501;
 
             background-repeat: no-repeat;
             background-size: cover;
@@ -34,7 +34,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="/">Home</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -111,8 +111,33 @@
                         <li><a class="dropdown-item" href="/ui/timetable/operator/get/all">Operator</a></li>
                     </ul>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Requests
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="/requests/1/">request 1</a></li>
+                        <li><a class="dropdown-item" href="/requests/2">request 2</a></li>
+                        <li><a class="dropdown-item" href="/requests/3">request 3</a></li>
+                        <li><a class="dropdown-item" href="/requests/4/">request 4</a></li>
+                        <li><a class="dropdown-item" href="/requests/5//">request 5</a></li>
+                        <li><a class="dropdown-item" href="/requests/6/">request 6</a></li>
+                        <li><a class="dropdown-item" href="/requests/7///">request 7</a></li>
+                        <li><a class="dropdown-item" href="/requests/8//">request 8</a></li>
+                        <li><a class="dropdown-item" href="/requests/9/">request 9</a></li>
+                        <li><a class="dropdown-item" href="/requests/10">request 10</a></li>
+                        <li><a class="dropdown-item" href="/requests/11//">request 11</a></li>
+                        <li><a class="dropdown-item" href="/requests/12/">request 12</a></li>
+                        <li><a class="dropdown-item" href="/requests/13">request 13</a></li>
+                        <li><a class="dropdown-item" href="/requests/14/">request 14</a></li>
+                        <li><a class="dropdown-item" href="/requests/15">request 15</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
+        <li class="nav-item dropdown" style="float: right">
+            <a href="/logout"><button type="button" class="btn btn-dark">Log out</button></a>
+        </li>
     </div>
 </nav>
     <div style="width: 500px;margin: 0 auto; margin-top: 50px">
@@ -146,32 +171,18 @@
                 <@spring.formSingleSelect "carForm.modell", models, ""/>
             </div>
             <div class="input-group mb-3" style="height: 31px">
-                <button class="changeBitton" type="button" onclick=test() style="width: 120px"><a id="taxiOfficeFilter" href="#" >set office</a></button>
+                <label class="input-group-text" style="width: 120px" for="inputGroupSelect01">Office</label>
                 <select class="form-select testclass" id="inputGroupSelect03" aria-label="Example select with button addon"
                 <@spring.formSingleSelect "carForm.taxiOffice", taxiOffice, "text"/>
                 </select>
             </div>
 
-
-            <script type="text/javascript">
-                function test() {
-                    let el = document.getElementById("taxiOfficeFilter");
-                    let val = document.getElementsByClassName("testclass")[0];
-                    el.setAttribute("href", "/ui/car/create?taxiOffice=" + val.value)
-                    console.log("sad")
-                }
-
             </script>
-
             <div class="input-group input-group-sm mb-3">
                 <label class="input-group-text" style="width: 120px" for="inputGroupSelect01">Driver</label>
                 <select class="form-select" id="inputGroupSelect01"
                 <@spring.formSingleSelect "carForm.driver", drivers, "text"/>
             </div>
-
-
-
-
 
             <button type="submit" class="btn btn-outline-dark" style="margin-left: 45%">Create</button>
         </form>

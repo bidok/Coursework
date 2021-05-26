@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author : bidok
@@ -42,7 +44,9 @@ public class DispatchServiceSalaryForIntervalServiceImpl implements IDispatchSer
     @Override
     public List<DispatchServiceSalaryForInterval> getAll() {
         LOGGER.info("method get all was called");
-        return repository.findAll();
+        return repository.findAll().stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     @Override

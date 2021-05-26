@@ -6,6 +6,7 @@ import com.example.demo.service.driverTimeTable.impl.DriverTimeTableServiceImpl;
 import com.example.demo.service.operatorTimeTable.impl.OperatorTimeTableServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,24 +23,28 @@ public class DriverTimeTableRestController {
     private final DriverTimeTableServiceImpl service;
 
     @ApiOperation(value = "get all driver time table")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<DriverTimeTable> getAll(){
         return service.getAll();
     }
 
     @ApiOperation(value = "get driver time table by id", notes = "id must be UUID")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping(value ="/get/{id}", method = RequestMethod.GET)
     public DriverTimeTable getById (@PathVariable String id){
         return service.getById(id);
     }
 
     @ApiOperation(value = "save driver time table", notes = "if id are exist is create method else update method")
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value ="/save", method = RequestMethod.POST)
     public DriverTimeTable save(@RequestBody DriverTimeTable operatorTimeTable){
         return service.save(operatorTimeTable);
     }
 
     @ApiOperation(value = "delete driver time table by id", notes = "id must be UUID")
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value ="delete/{id}", method = RequestMethod.GET)
     public DriverTimeTable delete(@PathVariable String id){
         return service.deleteById(id);

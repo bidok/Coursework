@@ -5,6 +5,8 @@ import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.exceptions.ObjectNotFoundException;
 import com.example.demo.model.Car;
 import com.example.demo.model.Check;
+import com.example.demo.model.DiscountCard;
+import com.example.demo.model.DriverTimeTable;
 import com.example.demo.model.Order;
 import com.example.demo.repository.car.CarRepository;
 import com.example.demo.repository.check.CheckRepository;
@@ -14,8 +16,11 @@ import com.example.demo.service.IGenericService;
 import com.example.demo.service.car.impl.CarServiceImpl;
 import com.example.demo.service.customer.impls.CustomerServiceImpl;
 import com.example.demo.service.driver.impls.DriverServiceImpl;
+import com.example.demo.service.driverTimeTable.impl.DriverTimeTableServiceImpl;
+import com.example.demo.service.operatorTimeTable.impl.OperatorTimeTableServiceImpl;
 import com.example.demo.service.order.interfaces.IOrderService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -39,7 +44,8 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements IOrderService, IGenericService<Order> {
     private final OrderRepository repository;
     private final CheckRepository checkRepository;
-    private final FakeData fakeData;
+    private final DriverTimeTableServiceImpl driverTimeTableService;
+    private final OperatorTimeTableServiceImpl operatorTimeTableService;
     private final CarServiceImpl carService;
 
     private static  final Logger LOGGER = LoggerFactory.getLogger(OrderServiceImpl.class);
@@ -74,10 +80,22 @@ public class OrderServiceImpl implements IOrderService, IGenericService<Order> {
             if(type.getCar().getState().equals(false)) {
                 throw new InvalidDataException("car with number " + type.getCar().getCarNumber() + " are exist");
             }
+            if (operatorTimeTableService.getAll().stream().noneMatch(item -> item.getWorker().getId().equals(type.getOperator().getId()))){
+                throw new InvalidDataException("operator with id " + type.getCar().getDriver().getId() + " don`t work");
+            }
+            if (driverTimeTableService.getAll().stream().noneMatch(item -> item.getWorker().getId().equals(type.getCar().getDriver().getId()))){
+                throw new InvalidDataException("driver with id " + type.getCar().getDriver().getId() + " don`t work");
+            }
             Car car = type.getCar();
             car.setState(false);
             carService.save(car);
             LOGGER.info("object was created");
+            List<String> orders = this.getAll().stream().map(Order::getOrderNumber).collect(Collectors.toList());
+            String number = RandomStringUtils.randomAlphanumeric(10);
+            while (orders.contains(number)){
+                number = RandomStringUtils.randomAlphanumeric(10);
+            }
+            type.setOrderNumber(number);
         }
         return repository.save(type);
     }

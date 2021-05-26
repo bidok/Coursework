@@ -23,6 +23,7 @@ public class Audit {
     public Audit() {
         this.createTime = LocalDateTime.now(ZoneId.of("Europe/Kiev")).toLocalDate();
         this.updateTime = LocalDateTime.now(ZoneId.of("Europe/Kiev")).toLocalDate();
+
     }
 
     public void setUpdateTime(LocalDateTime updateTime) {

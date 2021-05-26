@@ -3,6 +3,7 @@ package com.example.demo.service.driver.impls;
 import com.example.demo.dao.driver.impls.DriverDAOImpl;
 import com.example.demo.dao.driver.interfaces.IDriverDAO;
 import com.example.demo.data.FakeData;
+import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.exceptions.ObjectNotFoundException;
 import com.example.demo.model.Driver;
 import com.example.demo.model.DriverSalaryForDay;
@@ -30,6 +31,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author : bidok
@@ -75,11 +77,17 @@ public class DriverServiceImpl implements IDriverService, IGenericService<Driver
             o.setCreateTime(getById(o.getId()).getCreateTime());
         }else LOGGER.info("object was created");
 
+        if(Stream.of(o.getName(), o.getMark(), o.getTaxiOffice(), o.getLicenseNumber(), o .getPhone()).anyMatch(Objects::isNull)){
+            throw new InvalidDataException("some field in this driver are null");
+        }
         return driverRepository.save((Driver) o);
     }
 
     @Override
     public Driver getById(String id) {
+        if(id == null){
+            return new Driver();
+        }
         LOGGER.info("method get by id [" + id + "] was called");
         return driverRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Driver with id: " + id + " not found"));
     }

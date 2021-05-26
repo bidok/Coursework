@@ -31,5 +31,14 @@ public class CommonController {
         }
         return str.replace("name", link);
     }
+    @RequestMapping(value = "/requests")
+    public String showRequests() throws FileNotFoundException {
+        String str = "";
+        Scanner scanner = new Scanner(new FileReader("src/main/resources/static/technikal-task.html"));
+        while (scanner.hasNextLine()){
+            str += scanner.nextLine();
+        }
+        return str;
+    }
 
 }

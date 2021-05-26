@@ -10,6 +10,7 @@ import com.example.demo.service.driverTimeTable.impl.DriverTimeTableServiceImpl;
 import com.example.demo.service.operator.impl.OperatorServiceImpl;
 import com.example.demo.service.operatorTimeTable.impl.OperatorTimeTableServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,25 +30,25 @@ public class DriverTimeTableUIController {
     private final DriverTimeTableServiceImpl service;
     private final OperatorServiceImpl operatorService;
     private final DriverServiceImpl driverService;
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping("/get/all")
     public String showAll(Model model){
         model.addAttribute("timeTable", service.getAll());
         return "driverTimeTable/showAll";
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping("/get/{id}")
     public  String getById(@PathVariable String id, Model model){
         model.addAttribute("timeTable", service.getById(id));
         return "driverTimeTable/showById";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable String id){
         service.deleteById(id);
         return "redirect:/ui/timetable/driver/get/all";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/update/{id}")
     public String update(@PathVariable String id, Model model){
         DriverTimeTable driverTimeTable = service.getById(id);
@@ -56,10 +57,12 @@ public class DriverTimeTableUIController {
         operatorTimeTableForm.setEndWork(driverTimeTable.getEndWork().toString());
         operatorTimeTableForm.setOperator(driverTimeTable.getWorker().getName());
         model.addAttribute("timeTableForm", operatorTimeTableForm);
-        model.addAttribute("operators", driverService.getAll().stream().collect(Collectors.toMap(Driver::getId, Driver::getName)));
+        model.addAttribute("operators", driverService.getAll().stream()
+                .filter(item -> service.getAll().stream().noneMatch(record -> record.getWorker().getId().equals(item.getId())))
+                .collect(Collectors.toMap(Driver::getId, Driver::getName)));
         return "driverTimeTable/update";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/update/{id}")
     public String update(@PathVariable String id, @ModelAttribute("timeTableForm") OperatorTimeTableForm operatorTimeTableForm){
         DriverTimeTable timeTable = service.getById(id);
@@ -69,16 +72,17 @@ public class DriverTimeTableUIController {
         service.save(timeTable);
         return "redirect:/ui/timetable/driver/get/all";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/create")
     public String create(Model model){
         model.addAttribute("operatorTimeTableForm", new OperatorTimeTableForm());
         model.addAttribute("operators",
                 driverService.getAll().stream()
+                        .filter(item -> service.getAll().stream().noneMatch(record -> record.getWorker().getId().equals(item.getId())))
                         .collect(Collectors.toMap(Driver::getId, Driver::getName)));
         return "driverTimeTable/create";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public String create(@ModelAttribute("operatorTimeTableForm") OperatorTimeTableForm operatorTimeTableForm) {
         DriverTimeTable operatorTimeTable = new DriverTimeTable();

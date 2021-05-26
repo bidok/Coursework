@@ -10,6 +10,7 @@ import com.example.demo.service.driverSalaryForDay.impls.DriverSalaryForDayServi
 import com.example.demo.service.taxiOffice.impls.TaxiOfficeServiceImpl;
 import com.example.demo.service.taxiOfficeSalaryForDay.impls.TaxiOfficeSalaryForDayServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,25 +29,25 @@ import java.util.stream.Collectors;
 public class TaxiOfficeSalaryForDayUIController {
     private final TaxiOfficeSalaryForDayServiceImpl service;
     private final TaxiOfficeServiceImpl taxiOfficeService;
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping("/get/all")
     public String showAll(Model model){
         model.addAttribute("taxiOfficeSalaryForDay", service.getAll());
         return "taxiOfficeSalaryForDay/showAll";
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping("/get/{id}")
     public  String getById(@PathVariable String id, Model model){
         model.addAttribute("taxiOfficeSalaryForDay", service.getById(id));
         return "taxiOfficeSalaryForDay/showById";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable String id){
         service.deleteById(id);
         return "redirect:/ui/salary/forday/taxioffice/get/all";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/update/{id}")
     public String update(@PathVariable String id, Model model){
         TaxiOfficeSalaryForDay taxiOfficeSalaryForDay = service.getById(id);
@@ -60,7 +61,7 @@ public class TaxiOfficeSalaryForDayUIController {
         model.addAttribute("taxioffices", cards);
         return "taxiOfficeSalaryForDay/update";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/update/{id}")
     public String update(@PathVariable String id, @ModelAttribute("salaryForDayForm") SalaryForDayForm salaryForDayForm){
         TaxiOfficeSalaryForDay taxiOfficeSalaryForDay = service.getById(id);
@@ -69,7 +70,7 @@ public class TaxiOfficeSalaryForDayUIController {
         service.save(taxiOfficeSalaryForDay);
         return "redirect:/ui/salary/forday/taxioffice/get/all";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/create")
     public String create(Model model){
         model.addAttribute("salaryForDayForm", new SalaryForDayForm());
@@ -78,7 +79,7 @@ public class TaxiOfficeSalaryForDayUIController {
                         .stream().collect(Collectors.toMap(TaxiOffice::getId, TaxiOffice::getName)));
         return "taxiOfficeSalaryForDay/create";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public String create(@ModelAttribute("salaryForDayForm") SalaryForDayForm salaryForDayForm) {
         TaxiOfficeSalaryForDay taxiOfficeSalaryForDay = new TaxiOfficeSalaryForDay();

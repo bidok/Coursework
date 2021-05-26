@@ -7,7 +7,7 @@
     <title>Update Driver</title>
     <style>
         body{
-            background-image: url("https://image.shutterstock.com/image-vector/urban-background-taxi-car-skyscrapers-260nw-100603252.jpg");
+            background-color: #eda501;
 
             background-repeat: no-repeat;
             background-size: cover;
@@ -96,8 +96,33 @@
                 </li>
 
 
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Requests
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="/requests/1/">request 1</a></li>
+                        <li><a class="dropdown-item" href="/requests/2">request 2</a></li>
+                        <li><a class="dropdown-item" href="/requests/3">request 3</a></li>
+                        <li><a class="dropdown-item" href="/requests/4/">request 4</a></li>
+                        <li><a class="dropdown-item" href="/requests/5//">request 5</a></li>
+                        <li><a class="dropdown-item" href="/requests/6/">request 6</a></li>
+                        <li><a class="dropdown-item" href="/requests/7///">request 7</a></li>
+                        <li><a class="dropdown-item" href="/requests/8//">request 8</a></li>
+                        <li><a class="dropdown-item" href="/requests/9/">request 9</a></li>
+                        <li><a class="dropdown-item" href="/requests/10">request 10</a></li>
+                        <li><a class="dropdown-item" href="/requests/11//">request 11</a></li>
+                        <li><a class="dropdown-item" href="/requests/12/">request 12</a></li>
+                        <li><a class="dropdown-item" href="/requests/13">request 13</a></li>
+                        <li><a class="dropdown-item" href="/requests/14/">request 14</a></li>
+                        <li><a class="dropdown-item" href="/requests/15">request 15</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
+        <li class="nav-item dropdown" style="float: right">
+            <a href="/logout"><button type="button" class="btn btn-dark">Log out</button></a>
+        </li>
     </div>
 </nav>
 <div style="width: 500px ;margin: 0 auto; margin-top: 50px">
@@ -119,7 +144,7 @@
         </div>
 
         <div class="input-group input-group-sm mb-3">
-            <label class="input-group-text" style="width: 120px" for="inputGroupSelect01">Driver</label>
+            <label class="input-group-text" style="width: 120px" for="inputGroupSelect01">Taxi Office</label>
             <select class="form-select" id="inputGroupSelect01"
             <@spring.formSingleSelect "salaryForIntervalForm.entity", taxiOffices, "text"/>
         </div>

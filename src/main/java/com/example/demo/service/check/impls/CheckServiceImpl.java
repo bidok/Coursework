@@ -15,6 +15,7 @@ import com.example.demo.service.check.interfaces.ICheckService;
 import com.example.demo.service.order.impls.OrderServiceImpl;
 import com.example.demo.service.taxiOffice.impls.TaxiOfficeServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -54,7 +56,10 @@ public class CheckServiceImpl implements ICheckService, IGenericService<Check> {
     @Override
     public List<Check> getAll() {
         LOGGER.info("method get all office was called");
-        return repository.findAll();
+        return repository.findAll().stream()
+                .filter(Objects::nonNull)
+                .filter(item -> !item.getOrder().getOrderNumber().equals("undefined"))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -77,6 +82,23 @@ public class CheckServiceImpl implements ICheckService, IGenericService<Check> {
             if(list.stream().anyMatch(item -> item.getCheckNumber().equals(type.getCheckNumber()))){
                 throw new InvalidDataException("order with this number are exist");
             }
+            List<String> checks = this.getAll().stream().map(Check::getCheckNumber).collect(Collectors.toList());
+            String number = RandomStringUtils.randomAlphanumeric(10);
+            while (checks.contains(number)){
+                number = RandomStringUtils.randomAlphanumeric(10);
+            }
+            type.setCheckNumber(number);
+        }
+        switch (type.getOrder().getCar().getModell().getCarClass()){
+        case Standart:
+            type.setPrice(type.getPrice() * 0.15);
+            break;
+        case Prestige:
+            type.setPrice(type.getPrice() * 0.25);
+            break;
+        case Lux:
+            type.setPrice(type.getPrice() * 0.5);
+            break;
         }
         if(type.getOrder().getIsOutOfCity()){
             type.setPrice(type.getDistance() * 10.0);
@@ -118,11 +140,14 @@ public class CheckServiceImpl implements ICheckService, IGenericService<Check> {
                 (dispatchServiceSalaryForDay.getSalary() + type.getPrice() * 0.15) * discount));
         dispatchServiceSalaryForDayRepository.save(dispatchServiceSalaryForDay);
 
+
+
         Order order = orderService.getById(type.getOrder().getId());
         order.setCompleted(true);
         orderService.save(order);
         Car car = type.getOrder().getCar();
         car.setState(true);
+        car.setLocation(type.getOrder().getEndAddress());
         carService.save(car);
         return repository.save(type);
     }

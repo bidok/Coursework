@@ -20,7 +20,7 @@ import java.time.*;
 @EqualsAndHashCode(of = {"id"})
 @NoArgsConstructor
 @AllArgsConstructor
-@Document
+@Document(collection = "timeTableArchive")
 public abstract class TimeTable<O> extends Audit{
     @Id
     @ApiModelProperty("time table exist, must be UUID")

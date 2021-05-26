@@ -1,6 +1,7 @@
 package com.example.demo.service.operatorTimeTable.impl;
 
 import com.example.demo.data.FakeData;
+import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.exceptions.ObjectNotFoundException;
 import com.example.demo.model.Driver;
 import com.example.demo.model.Operator;
@@ -19,6 +20,9 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author : bidok
@@ -42,7 +46,10 @@ public class OperatorTimeTableServiceImpl implements IOperatorTimeTableService, 
     @Override
     public List<OperatorTimeTable> getAll() {
         LOGGER.info("method get all was called");
-        return repository.findAll();
+        return repository.findAll().stream()
+                .filter(Objects::nonNull)
+                .filter(item -> item.getWorker() != null && !item.getWorker().getName().equals("undefined"))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -53,6 +60,9 @@ public class OperatorTimeTableServiceImpl implements IOperatorTimeTableService, 
             type.setCreateTime(getById(type.getId()).getCreateTime());
         }
         else LOGGER.info("object was created");
+        if(Stream.of(type.getWorker(), type.getEndWork(), type.getStartWork()).anyMatch(Objects::isNull)){
+            throw new InvalidDataException("field int this timetable are exist");
+        }
         return repository.save(type);
     }
 

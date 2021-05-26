@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -45,7 +46,10 @@ public class DriverSalaryForIntervalServiceImpl implements IDriverSalaryForInter
     @Override
     public List<DriverSalaryForInterval> getAll() {
         LOGGER.info("method get all was called");
-        return repository.findAll();
+        return repository.findAll().stream()
+                .filter(Objects::nonNull)
+                .filter(item -> item.getDriver().getName().equals("undefined"))
+                .collect(Collectors.toList());
     }
 
     @Override

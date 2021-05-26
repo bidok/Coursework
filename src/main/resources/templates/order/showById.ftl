@@ -11,7 +11,7 @@
             background-color: white;
         }
         body{
-            background-image: url("https://image.shutterstock.com/image-vector/urban-background-taxi-car-skyscrapers-260nw-100603252.jpg");
+            background-color: #eda501;
 
             background-repeat: no-repeat;
             background-size: cover;
@@ -26,7 +26,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="/">Home</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -103,12 +103,37 @@
                     </ul>
                 </li>
 
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Requests
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="/requests/1/">request 1</a></li>
+                        <li><a class="dropdown-item" href="/requests/2">request 2</a></li>
+                        <li><a class="dropdown-item" href="/requests/3">request 3</a></li>
+                        <li><a class="dropdown-item" href="/requests/4/">request 4</a></li>
+                        <li><a class="dropdown-item" href="/requests/5//">request 5</a></li>
+                        <li><a class="dropdown-item" href="/requests/6/">request 6</a></li>
+                        <li><a class="dropdown-item" href="/requests/7///">request 7</a></li>
+                        <li><a class="dropdown-item" href="/requests/8//">request 8</a></li>
+                        <li><a class="dropdown-item" href="/requests/9/">request 9</a></li>
+                        <li><a class="dropdown-item" href="/requests/10">request 10</a></li>
+                        <li><a class="dropdown-item" href="/requests/11//">request 11</a></li>
+                        <li><a class="dropdown-item" href="/requests/12/">request 12</a></li>
+                        <li><a class="dropdown-item" href="/requests/13">request 13</a></li>
+                        <li><a class="dropdown-item" href="/requests/14/">request 14</a></li>
+                        <li><a class="dropdown-item" href="/requests/15">request 15</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
+        <li class="nav-item dropdown" style="float: right">
+            <a href="/logout"><button type="button" class="btn btn-dark">Log out</button></a>
+        </li>
     </div>
 </nav>
     <div style="width: 400px; margin: 0 auto;">
-        <h1 style="margin-left: 35%">Car</h1>
+        <h1 style="margin-left: 35%">Order</h1>
         <ul class="list-group">
 
             <div class="input-group input-group-sm mb-3">
@@ -128,7 +153,7 @@
                 <input type="text" readonly placeholder=${order.getEndAddress()} class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             </div>
             <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">is ou of city</span>
+                <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">is out from city</span>
                 <input type="text" readonly placeholder=<#if isOut == true>Yes</#if><#if isOut != true>No</#if>
                                                          class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             </div>
@@ -151,7 +176,7 @@
                 <input type="text" readonly placeholder=${order.getCar().getDriver().getName()} class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             </div>
             <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">is ou of city</span>
+                <span class="input-group-text" id="inputGroup-sizing-sm" style="width: 150px">completed</span>
                 <input type="text" readonly placeholder=<#if compl == true>Yes</#if><#if compl != true>No</#if>
                        class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             </div>
@@ -170,7 +195,6 @@
         </ul>
         <a href="/ui/order/get/all"><button type="button" class="btn btn-outline-dark">To the list</button></a>
         <a style="float: right" href="/ui/customer/get/${order.getCustomer().getId()}"><button type="button" class="btn btn-outline-dark" >Customer</button></a>
-        <a style="float: right" href="/ui/driver/get/${order.getDriver().getId()}"><button type="button" class="btn btn-outline-dark" >Driver</button></a>
         <a style="float: right" href="/ui/operator/get/${order.getOperator().getId()}"><button type="button" class="btn btn-outline-dark" >operator</button></a>
         <a style="float: right" href="/ui/car/get/${order.getCar().getId()}"><button type="button" class="btn btn-outline-dark" >Car</button></a>
     </div>

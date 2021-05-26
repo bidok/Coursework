@@ -8,6 +8,7 @@ import com.example.demo.service.taxiOffice.interfaces.ITaxiOfficeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,14 +32,14 @@ public class TaxiOfficeUIController {
     FakeData data;
 
     static final Logger LOGGER = LoggerFactory.getLogger(TaxiOfficeUIController.class);
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping("/get/all")
     public String showAll(Model model){
         model.addAttribute("taxiOffices", service.getAll());
         LOGGER.info("method get all from ui controller for taxi office was called");
         return "taxiOffice/showAll";
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping("/get/{id}")
     public  String getById(@PathVariable String id, Model model){
         model.addAttribute("taxiOffice", service.getById(id));
@@ -46,21 +47,21 @@ public class TaxiOfficeUIController {
         return "taxiOffice/showById";
     }
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable String id){
         service.deleteById(id);
         LOGGER.info("method delete by id:[" + id + "] from ui controller for taxi office was called");
         return "redirect:/ui/taxioffice/get/all";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/create")
     public String create(Model model){
         model.addAttribute("taxiOfficeForm", new TaxiOfficeForm());
         LOGGER.info("method create from ui controller for taxi office was called");
         return "taxiOffice/create";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public String create(@ModelAttribute("taxiOfficeForm") TaxiOfficeForm taxiOfficeForm) {
         TaxiOffice taxiOffice = new TaxiOffice();
@@ -71,7 +72,7 @@ public class TaxiOfficeUIController {
         service.save(taxiOffice);
         return "redirect:/ui/taxioffice/get/all";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/update/{id}")
     public String update(@PathVariable String id, Model model){
         LOGGER.info("method update from ui controller for taxi office was called");
@@ -86,7 +87,7 @@ public class TaxiOfficeUIController {
         model.addAttribute("taxiOfficeForm", taxiOfficeForm);
         return "taxiOffice/update";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/update/{id}")
     public String update(@PathVariable String id, @ModelAttribute("taxiOfficeForm") TaxiOfficeForm taxiOfficeForm){
         TaxiOffice taxiOffice = service.getById(id);

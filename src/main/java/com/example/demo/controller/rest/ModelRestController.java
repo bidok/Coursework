@@ -6,6 +6,7 @@ import com.example.demo.model.Modell;
 import com.example.demo.service.model.impls.ModelServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,24 +24,28 @@ public class ModelRestController {
     private ModelServiceImpl service;
 
     @ApiOperation(value = "get all model")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<Modell> getAll(){
         return service.getAll();
     }
 
     @ApiOperation(value = "get model by id", notes = "id must be UUID")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping(value ="/get/{id}", method = RequestMethod.GET)
     public Modell getById (@PathVariable String id){
         return service.getById(id);
     }
 
     @ApiOperation(value = "save model", notes = "if id are exist is create method else update method")
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value ="/save", method = RequestMethod.POST)
     public Modell save(@RequestBody Modell modell){
         return service.save(modell);
     }
 
     @ApiOperation(value = "delete model by id", notes = "id must be UUID")
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value ="delete/{id}", method = RequestMethod.GET)
     public Modell delete(@PathVariable String id){
         return service.deleteById(id);

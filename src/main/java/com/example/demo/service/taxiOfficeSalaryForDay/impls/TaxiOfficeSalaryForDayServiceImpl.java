@@ -1,6 +1,7 @@
 package com.example.demo.service.taxiOfficeSalaryForDay.impls;
 
 import com.example.demo.data.FakeData;
+import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.exceptions.ObjectNotFoundException;
 import com.example.demo.model.DriverSalaryForDay;
 import com.example.demo.model.TaxiOffice;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -50,18 +52,24 @@ public class TaxiOfficeSalaryForDayServiceImpl implements ITaxiOfficeServiceSala
     @Override
     public List<TaxiOfficeSalaryForDay> getAll() {
         LOGGER.info("method get all was called");
-        return repository.findAll();
+        return repository.findAll().stream()
+                .filter(Objects::nonNull)
+                .filter(item -> !item.getTaxiOffice().getName().equals("undefined"))
+                .collect(Collectors.toList());
     }
 
     @Override
     public TaxiOfficeSalaryForDay save(TaxiOfficeSalaryForDay modell) {
         LOGGER.info("method save was called ");
-        if (this.getAll().stream().anyMatch(item -> item.getId().equals(modell.getId()))) {
+        List<TaxiOfficeSalaryForDay> salary = this.getAll();
+        if (salary.stream().anyMatch(item -> item.getId().equals(modell.getId()))) {
             LOGGER.info("object with id: [" + modell.getId() + "] was updated");
             modell.setUpdateTime(LocalDateTime.now());
             modell.setCreateTime(getById(modell.getId()).getCreateTime());
         }else LOGGER.info("object was created");
-
+        if (salary.stream().anyMatch(item -> item.getCreateTime().equals(modell.getCreateTime()))){
+            throw new InvalidDataException("salary are exist");
+        }
         return repository.save(modell);
     }
 

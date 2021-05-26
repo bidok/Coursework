@@ -3,6 +3,7 @@ package com.example.demo.service.taxiOffice.impls;
 import com.example.demo.dao.taxiOffice.impls.TaxiOfficeDAOImpl;
 import com.example.demo.dao.taxiOffice.interfaces.ITaxiOfficeDAO;
 import com.example.demo.data.FakeData;
+import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.exceptions.ObjectNotFoundException;
 import com.example.demo.model.*;
 import com.example.demo.repository.car.CarRepository;
@@ -33,6 +34,7 @@ import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author : bidok
@@ -88,6 +90,9 @@ public class TaxiOfficeServiceImpl implements ITaxiOfficeService, IGenericServic
             type.setCreateTime(getById(type.getId()).getCreateTime());
             LOGGER.info("tax office with id: [" + type.getId() + "] was updated");
         } else LOGGER.info("taxi office was created");
+        if(Stream.of(type.getName(), type.getOwnerName(), type.getLicenseNumber(), type.getPhoneNumber()).anyMatch(Objects::isNull)){
+            throw new InvalidDataException("some field in object are null");
+        }
         return taxiOfficeRepository.save(type);
     }
 

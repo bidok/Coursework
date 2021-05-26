@@ -9,6 +9,7 @@ import com.example.demo.service.driver.impls.DriverServiceImpl;
 import com.example.demo.service.driverSalaryForDay.impls.DriverSalaryForDayServiceImpl;
 import com.example.demo.service.driverSalaryForInterval.impls.DriverSalaryForIntervalServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,25 +29,25 @@ import java.util.stream.Collectors;
 public class DriverSalaryForIntervalUIController {
     private final DriverSalaryForIntervalServiceImpl service;
     private final DriverServiceImpl driverService;
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping("/get/all")
     public String showAll(Model model){
         model.addAttribute("driverSalaryForInterval", service.getAll());
         return "driverSalaryForInterval/showAll";
     }
-
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping("/get/{id}")
     public  String getById(@PathVariable String id, Model model){
         model.addAttribute("driverSalaryForInterval", service.getById(id));
         return "driverSalaryForInterval/showById";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable String id){
         service.deleteById(id);
         return "redirect:/ui/salary/forinterval/driver/get/all";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/update/{id}")
     public String update(@PathVariable String id, Model model){
         DriverSalaryForInterval driverSalaryForInterval = service.getById(id);
@@ -62,7 +63,7 @@ public class DriverSalaryForIntervalUIController {
         model.addAttribute("drivers", cards);
         return "driverSalaryForInterval/update";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/update/{id}")
     public String update(@PathVariable String id, @ModelAttribute("salaryForDayForm") SalaryForIntervalForm salaryForIntervalForm){
         DriverSalaryForInterval driverSalaryForInterval = service.getById(id);
@@ -73,7 +74,7 @@ public class DriverSalaryForIntervalUIController {
         service.save(driverSalaryForInterval);
         return "redirect:/ui/salary/forinterval/driver/get/all";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/create")
     public String create(Model model){
         model.addAttribute("salaryForIntervalForm", new SalaryForIntervalForm());
@@ -82,7 +83,7 @@ public class DriverSalaryForIntervalUIController {
                         .stream().collect(Collectors.toMap(Driver::getId, Driver::getName)));
         return "driverSalaryForInterval/create";
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public String create(@ModelAttribute("salaryForIntervalForm") SalaryForIntervalForm salaryForIntervalForm) {
         DriverSalaryForInterval driverSalaryForInterval = new DriverSalaryForInterval();

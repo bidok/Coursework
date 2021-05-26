@@ -5,6 +5,7 @@ import com.example.demo.model.DiscountCard;
 import com.example.demo.service.customer.impls.CustomerServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,21 +22,25 @@ public class CustomerRestController {
     private final CustomerServiceImpl service;
 
     @ApiOperation(value = "get all customers, without undefined customer")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping(value = "/get/all", method = RequestMethod.GET)
     public List<Customer> getAll(){
         return service.getAll();
     }
     @ApiOperation(value = "get customer by id", notes = "id must be UUID")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @RequestMapping(value ="/get/{id}", method = RequestMethod.GET)
     public Customer getById (@PathVariable String id){
         return service.getById(id);
     }
     @ApiOperation(value = "save customer", notes = "if id are exist is create method else update method")
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value ="/save", method = RequestMethod.POST)
     public Customer save(@RequestBody Customer customer){
         return service.save(customer);
     }
     @ApiOperation(value = "delete customer by id", notes = "id must be UUID")
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value ="delete/{id}", method = RequestMethod.GET)
     public Customer delete(@PathVariable String id){
         return service.deleteById(id);
