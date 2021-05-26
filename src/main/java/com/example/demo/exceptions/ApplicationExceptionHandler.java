@@ -15,7 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
  * @className : ApplicationExceptionHandler
  **/
 
-@ControllerAdvice
+
+@ControllerAdvice("com.example.demo.controller.ui")
 public class ApplicationExceptionHandler {
 
     @ExceptionHandler(ObjectNotFoundException.class)
