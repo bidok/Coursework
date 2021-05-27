@@ -76,14 +76,4 @@ public class DispatchServiceSalaryForDayServiceImpl implements IDispatchServiceS
     }
 
 
-
-    @PostConstruct
-    void addNewSalary(){
-        if(LocalTime.now().isAfter(LocalTime.of(0,0)) && LocalTime.now().isAfter(LocalTime.of(0,5))){
-            if(!(this.getAll().stream().anyMatch(item -> item.getCreateTime().equals(LocalDate.now())))){
-                this.save(new DispatchServiceSalaryForDay(0));
-            }
-        }
-    }
-
 }

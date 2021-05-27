@@ -82,18 +82,5 @@ public class TaxiOfficeSalaryForDayServiceImpl implements ITaxiOfficeServiceSala
         return modell;
     }
 
-    @PostConstruct
-    void addNewSalary(){
-        if(LocalTime.now().isAfter(LocalTime.of(0,0)) && LocalTime.now().isBefore(LocalTime.of(0,5))){
-            if(!(this.getAll().stream().anyMatch(item -> item.getCreateTime().equals(LocalDate.now())))){
-                List<TaxiOfficeSalaryForDay> taxiOfficeSalaryForDays = new ArrayList<>();
-                taxiOfficeService.getAll().forEach(item ->
-                        taxiOfficeSalaryForDays.add(new TaxiOfficeSalaryForDay(item ,0)));
-                repository.saveAll(taxiOfficeSalaryForDays);
-                taxiOfficeSalaryForDays.clear();
-            }
-        }
-    }
-
 
 }

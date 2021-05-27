@@ -22,6 +22,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -67,6 +70,8 @@ public class DriverTimeTableServiceImpl implements IDriverTimeTableService, IGen
         if(Stream.of(type.getWorker(), type.getEndWork(), type.getStartWork()).anyMatch(Objects::isNull)){
             throw new InvalidDataException("field int this timetable are exist");
         }
+        type.setStartWork(ZonedDateTime.of(LocalDate.now().atTime(type.getStartWork()),ZoneId.of("Europe/Kiev")).toLocalTime());
+        type.setEndWork(ZonedDateTime.of(LocalDate.now().atTime(type.getEndWork()),ZoneId.of("Europe/Kiev")).toLocalTime());
         return repository.save(type);
     }
 
