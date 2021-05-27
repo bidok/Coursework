@@ -32,7 +32,7 @@ public class removeTimeTableRecords {
 	@Scheduled(cron = "1 */30 * * * *")
 	public void removeDriverTimeTable() {
 		List<DriverTimeTable> driverTimeTableList = driverTimeTableService.getAll().stream()
-				.filter(item -> LocalTime.now().isBefore(item.getEndWork()))
+				.filter(item -> LocalTime.now().isAfter(item.getEndWork()))
 				.collect(Collectors.toList());
 		driverTimeTableRepository.deleteAll(driverTimeTableList);
 		timeTableArchiveRepository.saveAll(driverTimeTableList);
@@ -41,7 +41,7 @@ public class removeTimeTableRecords {
 	@Scheduled(cron = "1 */30 * * * *")
 	public void removeOperatorTimeTable() {
 		List<OperatorTimeTable> operatorTimeTableList = operatorTimeTableService.getAll().stream()
-				.filter(item -> LocalTime.now().isBefore(item.getEndWork()))
+				.filter(item -> LocalTime.now().isAfter(item.getEndWork()))
 				.collect(Collectors.toList());
 		System.out.println(operatorTimeTableList);
 		operatorTimeTableRepository.deleteAll(operatorTimeTableList);
