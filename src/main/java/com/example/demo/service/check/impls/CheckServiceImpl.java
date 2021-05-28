@@ -116,8 +116,8 @@ public class CheckServiceImpl implements ICheckService, IGenericService<Check> {
                                 "] not found or driver salary on date [" +
                                 type.getCreateTime() +
                                 "] don`t exist"));
-        driverSalaryForDay.setSalary((int)((driverSalaryForDay.getSalary() + type.getPrice() * 0.25) -
-                ((driverSalaryForDay.getSalary() + type.getPrice() * 0.25) * discount)));
+
+        driverSalaryForDay.setSalary(calculateSalary(driverSalaryForDay.getSalary(), type, 0.25, discount));
         driverSalaryForDayRepository.save(driverSalaryForDay);
         //for taxiOffice
         TaxiOfficeSalaryForDay taxiOfficeSalaryForDay =  taxiOfficeSalaryForDayRepository
@@ -128,16 +128,16 @@ public class CheckServiceImpl implements ICheckService, IGenericService<Check> {
                                 "] not found or taxi office salary on date [" +
                                 type.getCreateTime() +
                                 "] don`t exist"));
-        taxiOfficeSalaryForDay.setSalary((int)((taxiOfficeSalaryForDay.getSalary() +
-                type.getPrice() * 0.60) - (taxiOfficeSalaryForDay.getSalary() + type.getPrice() * 0.60) * discount));
+
+        taxiOfficeSalaryForDay.setSalary(calculateSalary(taxiOfficeSalaryForDay.getSalary(), type, 0.6, discount));
         taxiOfficeSalaryForDayRepository.save(taxiOfficeSalaryForDay);
         //for dispatchservice
         DispatchServiceSalaryForDay dispatchServiceSalaryForDay =  dispatchServiceSalaryForDayRepository.findAll().stream()
                 .filter(item -> item.getCreateTime().equals(type.getCreateTime())).findFirst().orElseThrow(() ->
                         new ObjectNotFoundException("dispatch service salary on date [" + type.getCreateTime()
                                 + "] don`t exist"));
-        dispatchServiceSalaryForDay.setSalary((int)((dispatchServiceSalaryForDay.getSalary() + type.getPrice() * 0.15) -
-                (dispatchServiceSalaryForDay.getSalary() + type.getPrice() * 0.15) * discount));
+
+        dispatchServiceSalaryForDay.setSalary(calculateSalary(dispatchServiceSalaryForDay.getSalary(), type, 0.15, discount));
         dispatchServiceSalaryForDayRepository.save(dispatchServiceSalaryForDay);
 
 
@@ -168,5 +168,10 @@ public class CheckServiceImpl implements ICheckService, IGenericService<Check> {
                 .map(Check::getOrder)
                 .collect(Collectors.toList());
     }
+
+    public Integer calculateSalary(Integer oldSalary, Check check, Double percent, Double discount) {
+     return (int)(oldSalary + check.getPrice() * percent - ((oldSalary + check.getPrice() * percent) * discount));
+    }
+
 
 }
