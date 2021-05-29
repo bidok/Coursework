@@ -9,7 +9,7 @@
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
 		  integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
+	<link rel="stylesheet" href="styles/login-style.css">
 </head>
 <body>
 <div class="container">
@@ -17,7 +17,7 @@
 		<div class="col-md-6 col-md-offset-3">
 			<div class="panel panel-default" style="margin-top:45px">
 				<div class="panel-heading">
-					<h3 class="panel-title">Login with Username and Password</h3>
+					<h3 class="panel-title">Registration with Username and Password</h3>
 				</div>
 				<div class="panel-body">
 					<form method="post">
@@ -32,10 +32,11 @@
 							<input type="password" class="form-control" id="password" placeholder="Password"
 								   name="password">
 						</div>
-						<button type="submit" class="btn btn-default">Log in</button>
+
+						<button type="submit" class="btn btn-default">Register</button>
+
 					</form>
 				</div>
-				<a href="/registration">Sing in</a>
 			</div>
 		</div>
 	</div>

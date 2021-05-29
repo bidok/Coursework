@@ -12,8 +12,11 @@ import org.springframework.security.config.authentication.PasswordEncoderParser;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+
+import javax.sql.DataSource;
 
 /**
  * @author : Vasyl Bidiak
@@ -28,35 +31,49 @@ public class BasicConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	@Autowired
+	DataSource dataSource;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 				.csrf().disable()
 				.authorizeRequests()
-					.antMatchers("/").permitAll()
-				.anyRequest().authenticated()
+					.antMatchers("/", "/registration").permitAll()
+					.anyRequest().authenticated()
 				.and()
 					.formLogin()
 					.loginPage("/login")
 					.permitAll()
 				.and()
+					.logout()
+					.permitAll()
+				.and()
 					.httpBasic();
 	}
 
+//	@Override
+//	@Bean
+//	protected UserDetailsService userDetailsService() {
+//		UserDetails user = User.builder()
+//				.username("user")
+//				.password(passwordEncoder.encode("1234"))
+//				.roles("USER")
+//				.build();
+//		UserDetails admin = User.builder()
+//				.username("admin")
+//				.password(passwordEncoder.encode("yvaverepe"))
+//				.roles("ADMIN")
+//				.build();
+//		return new InMemoryUserDetailsManager(user, admin);
+//	}
+
 	@Override
-	@Bean
-	protected UserDetailsService userDetailsService() {
-		UserDetails user = User.builder()
-				.username("user")
-				.password(passwordEncoder.encode("1234"))
-				.roles("USER")
-				.build();
-		UserDetails admin = User.builder()
-				.username("admin")
-				.password(passwordEncoder.encode("yvaverepe"))
-				.roles("ADMIN")
-				.build();
-		return new InMemoryUserDetailsManager(user, admin);
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.jdbcAuthentication()
+				.dataSource(dataSource)
+				.passwordEncoder(NoOpPasswordEncoder.getInstance())
+				.usersByUsernameQuery("select username, password, is_active from usr where username=?")
+				.authoritiesByUsernameQuery("select u.username, ur.roles from usr u inner join user_role ur on u.id = ur.user_id where u.username=?");
 	}
 }
